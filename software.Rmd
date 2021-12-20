@@ -11,40 +11,18 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-<div class="container-fluid" style="margin-top:30px">
-<div class="col-lg-8 mx-auto">
-<h1><a href="https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html">R packages</a></h1>
-<p>
-<ul>
-<li><a href="https://cran.r-project.org/package=pavo"><em>pavo</em></a>, with Rafael Maia and Tom White.<br>
-A cohesive framework for parsing, analysing and organising colour from spectral data.<br>
-Peer-reviewed and published by Methods in Ecology and Evolution.
-</li>
-<li><a href="https://cran.r-project.org/package=lightr"><em>lightr</em></a>, with Rafael Maia and Tom White.<br>
-Parse various reflectance/transmittance/absorbance spectra file formats to extract spectral data and metadata.<br>
-Peer-reviewed by rOpenSci and published in Journal of Open Source Software.
-</li>
-<li><a href="https://cran.r-project.org/package=rromeo"><em>rromeo</em></a>, with Matthias Grenié.<br>
-Fetches information from the <a href=http://www.sherpa.ac.uk/romeo/apimanual.php>'SHERPA/RoMEO' API</a> which indexes policies of journal regarding the archival of scientific manuscripts before and/or after peer-review as well as formatted manuscripts.<br>
-Peer-reviewed by rOpenSci.
-</li>
-<li><a href="https://cran.r-project.org/pavo=contactdata"><em>contactdata</em></a>.<br>
-Data package for the supplementary data in <a href="https://doi.org/10.1371/journal.pcbi.1005697">Prem et al. (2017)</a>.<br>
-Provides easy access to contact data for 152 countries, for use in epidemiological, demographic or social sciences research.
-</li>
-<li><a href=https://cran.r-project.org/package=asymptor"><em>asymptor</em></a>.<br>
-The asymptor R package allows you to estimate the lower and upper bound of asymptomatic cases in an epidemic using the capture/recapture methods from <a href="https://doi.org/10.1016/j.ijid.2020.06.009">Böhning et al. (2020)</a> and <a href="https://doi.org/10.1101/2020.07.14.20153445">Rocchetti et al. (2020)</a>.
-</li>
-</ul>
-</p>
-<h1>Other software</h1>
-<p>
-<ul>
-<li><a href="https://www.biologie.ens.fr/~legendre/ulm/ulm.html"><em>ULM (Unified Life Models)</em></a> with Stéphane Legendre, François Bienvenu, Guilhem Doulcier, and Maxime Woringer.<br>
-Software coded in free pascal, with a GTK or Qt graphical interface, enabling the simulation and analysis of deterministic and stochastic discrete time dynamical systems for population dynamics modeling.
-</li>
-</ul>
-</p>
-</div>
+## [R packages](https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html)
 
-</div>
+- [pavo](https://cran.r-project.org/package=pavo), with Rafael Maia and Tom White: A cohesive framework for parsing, analysing and organising colour from spectral data. Peer-reviewed and published by Methods in Ecology and Evolution.
+  
+- [lightr](https://cran.r-project.org/package=lightr) with Rafael Maia and Tom White: Parse various reflectance/transmittance/absorbance spectra file formats to extract spectral data and metadata. Peer-reviewed by rOpenSci and published in Journal of Open Source Software.
+
+- [rromeo](https://cran.r-project.org/package=rromeo), with Matthias Grenié: Fetches information from the ['SHERPA/RoMEO API'](http://www.sherpa.ac.uk/romeo/apimanual.php) which indexes policies of journal regarding the archival of scientific manuscripts before and/or after peer-review as well as formatted manuscripts. Peer-reviewed by rOpenSci.
+
+- [contactdata](https://cran.r-project.org/pavo=contactdata): Data package for the supplementary data in [Prem et al. (2017). Provides easy access to contact data for 152 countries, for use in epidemiological, demographic or social sciences research.
+
+- [asymptor](https://cran.r-project.org/package=asymptor): The asymptor R package allows you to estimate the lower and upper bound of asymptomatic cases in an epidemic using the capture/recapture methods from [Böhning et al. (2020)](https://doi.org/10.1016/j.ijid.2020.06.009) and [Rocchetti et al. (2020)](https://doi.org/10.1101/2020.07.14.20153445)
+
+## Other software
+
+- [ULM (Unified Life Models)](https://www.biologie.ens.fr/~legendre/ulm/ulm.html) with Stéphane Legendre, François Bienvenu, Guilhem Doulcier, and Maxime Woringer: Software coded in free pascal, with a GTK or Qt graphical interface, enabling the simulation and analysis of deterministic and stochastic discrete time dynamical systems for population dynamics modeling.
