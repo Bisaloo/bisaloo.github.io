@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-## [R packages](https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html)
+# [R packages](https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html)
 
 - [pavo](https://cran.r-project.org/package=pavo), with Rafael Maia and Tom White: A cohesive framework for parsing, analysing and organising colour from spectral data. Peer-reviewed and published by Methods in Ecology and Evolution.
   
@@ -23,6 +23,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - [asymptor](https://cran.r-project.org/package=asymptor): The asymptor R package allows you to estimate the lower and upper bound of asymptomatic cases in an epidemic using the capture/recapture methods from [Böhning et al. (2020)](https://doi.org/10.1016/j.ijid.2020.06.009) and [Rocchetti et al. (2020)](https://doi.org/10.1101/2020.07.14.20153445)
 
-## Other software
+# Other software
 
 - [ULM (Unified Life Models)](https://www.biologie.ens.fr/~legendre/ulm/ulm.html) with Stéphane Legendre, François Bienvenu, Guilhem Doulcier, and Maxime Woringer: Software coded in free pascal, with a GTK or Qt graphical interface, enabling the simulation and analysis of deterministic and stochastic discrete time dynamical systems for population dynamics modeling.
