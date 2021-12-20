@@ -7,10 +7,6 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "CV"
-      href: cv.html
-    - text: "Projects"
-      href: projects.html
     - text: "Publications"
       href: publications.html
     - text: "Software"
