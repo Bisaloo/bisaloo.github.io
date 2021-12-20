@@ -1,0 +1,137 @@
+---
+title: "CV"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+<div class="container-fluid" style="margin-top:30px">
+<div class="col-lg-8 mx-auto">
+<h2><i class="fa fa-graduation-cap"></i> Education</h2>
+<ul class="timeline">
+<li>
+<p class="date">2020-present</p>
+<em>Post-doctoral researcher / R developer in epidemiology</em>,
+<i>Institut de Recherche pour le Développement.</i>
+<li>
+<p class="date">2016-2019</p>
+<em>PhD in evolutionary biology</em>:
+Origin and functions of iridescence in hummingbirds,
+<i>Université de Montpellier.</i>
+</li>
+<li>
+<p class="date">2014-2015</p>
+Gap year: <em>Research project</em> on Bluebirds,
+<i>École Normale Supérieure, University of Arizona.</i>
+</li>
+<li>
+<p class="date">2013-2016</p>
+<em>Masters Ecology, Biodiversity and Evolution</em>,
+obtained with highest distinction,
+<i>École Normale Supérieure</i>.
+<br>
+The <i>École Normale Supérieure</i> is a prestigious institution of
+higher education providing specialized training to students who
+will become professors and researchers in their field.
+</li>
+
+<li><p class="date">2013</p>
+<em>Licence</em> (Equivalent to Bachelor’s degree)
+<em>in Biology</em>, obtained with distinction.
+</li>
+
+<li><p class="date">2010-2012</p>
+<em><i>Classes Préparatoires</i></em>, a two-year intensive course
+preparing for highly competitive, national entrance examinations to
+French <i>Grandes Écoles</i> (including engineering schools and the
+ENS).
+</li>
+<li><p class="date">2010</p>
+<em><i>Baccalauréat Scientifique</i></em>
+(Equivalent to Highschool Diploma),
+obtained with highest distinction.
+</li>
+</ul>
+
+<h2><i class="fa fa-microscope"></i> Experience</h2>
+
+<a href="projects.html">See Projects section</a><br><br>
+<ul>
+<li>2019-current:
+<em>Preprint Editorial Team Member</em> for <em>Proceedings of
+the Royal Society B</em>.
+</li>
+<li>2016-2019:
+<em>Teaching assistant</em> for <em>Ecology</em> classes at the
+Université de Montpellier.
+</li>
+<li>2013-2015:
+<em>Oral examiner</em> in <em>Biology</em> at Lycée Saint-Louis
+(Paris).
+</li>
+<br>
+<li>
+Conferences and scientific events organisation:
+<ul>
+<li>2019:
+Symposium co-organiser "Colour accross the evolutionary spectrum: from production to perception" for ESEB2019 in Turku.
+</li>
+<li>2018:
+Volunteer at the II joint meeting in evolutionary biology in Montpellier.
+</li>
+<li>2018:
+Co-organiser of the "Open access day" (workshops and conferences about open access) at the Centre d'Écologie Fonctionnelle et Évolutive.
+</li>
+<li>2017:
+Co-organiser of the "Models in Ecology and Evolution" seminar for young researchers in Montpellier.
+</li>
+</ul>
+</li>
+<br>
+<li>
+Active <em>open-source contributor</em>:
+<ul>
+<li>Co-maintainer of <a href="https://github.com/EFForg/https-everywhere">HTTPS Everywhere rulesets</a>, <a href="http://rafaelmaia.net/pavo/">pavo</a>, <a href="https://www.biologie.ens.fr/~legendre/ulm/ulm.html">ULM</a>, <a href="https://gitlab.com/ecoevomath/zen">ZEN</a></li>
+<li><a class="fab fa-github" href="https://github.com/Bisaloo"> GitHub profile</a></li>
+<li><a class="fab fa-gitlab" href="https://gitlab.com/Bisaloo"> GitLab profile</a></li>
+</ul>
+</ul>
+
+<h2>Skills</h2>
+<div class="card-deck m-4">
+<div class="card">
+<div class="card-header"><h3>Computer skills</h3></div>
+<div class="card-body">
+<ul>
+<li>HTML <i class="fab fa-html5"></i> / CSS <i class="fab fa-css3-alt"></i></li>
+<li>LaTeX</li>
+<li>Python <i class="fab fa-python"></i></li>
+<li>R <i class="fab fa-r-project"></i></li>
+<li><i class="fab fa-git"></i></li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><h3>Field/lab skills</h3></div>
+<div class="card-body">
+<ul>
+<li><i class="fa fa-feather-alt"></i> Identification of most common European and American birds</li>
+<li><i class="fa fa-microscope"></i> Electronic Microscopy: sample preparation and observation </li>
+<li><i class="fa fa-flask"></i> Basic wet lab skills</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h2><i class="fa fa-medal"></i> Awards</h2>
+<ul>
+<li>Best talk award in "Method in Natural Sciences" session at the 5th Young Natural Scientist meeting</li>
+</ul>
+</div>
+</div>

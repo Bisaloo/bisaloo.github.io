@@ -1,0 +1,24 @@
+name: "bisaloo.github.io"
+title: "My Website"
+description: |
+  My Website
+output_dir: "_site"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "CV"
+      href: cv.html
+    - text: "Projects"
+      href: projects.html
+    - text: "Publications"
+      href: publications.html
+    - text: "Software"
+      href: software.html
+    - text: "Gallery"
+      href: https://www.flickr.com/photos/138630183@N03/albums
+    - text: "Contact"
+      href: contact.html
+    - text: "Copyleft"
+      href: credits.html
+output: distill::distill_article

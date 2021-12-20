@@ -1,0 +1,22 @@
+---
+title: "Hello world"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+My name is Hugo Gruson, I am an ecologist and an evolutionary biologist. My research interests focus on species competitive interactions and how they shape the species current characteristics: geographic range, behavioral traits, color, etc. My primary focus is on birds but I would be happy to work on another clade as to me, the topic matters more than the model species.
+
+![](src/hummingbird_1024x1024.jpg)
+
+During my free time, I am always trying to learn new stuff, no matter what it is: how to build and maintain a bike? How does cryptography work and what are its applications? What do clouds tell us about the air mass and how to predict the weather looking at them? etc.
+I also enjoy a lot being outdoors: biking, hiking, climbing, kayaking, birdwatching… As soon as the weather allows it, I go outside, sometimes even before sunrise.
+Hugo crossing a river on a dead trunk.
+
+![](src/hollandlake_1024x1024.jpg)

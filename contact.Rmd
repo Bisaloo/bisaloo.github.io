@@ -1,0 +1,36 @@
+---
+title: "Contact"
+description: Please contact me if you find any broken links, typos or awkward code.
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+<address class="m-4">
+  <strong>Hugo Gruson</strong><br>
+  London School of Hygiene and Tropical Medicine<br>
+  Keppel Street<br>
+  London<br>
+  WC1E 7HT<br>
+</address>
+
+<p id="mail"></p>
+<script>
+  var utilisateur = "hugo.gruson" ;
+  var hebergeur = "normalesup.org" ;
+  var adresse = utilisateur + "&#64" + hebergeur ;
+  document.getElementById('mail').innerHTML = "<a href='" + "mail" +
+                                              "to:" + adresse + "' " +
+                                              "class='fa fa-envelope'> " +
+                                              adresse +
+                                              "</a>"
+</script>
+<noscript>
+  <i class="fa fa-envelope"></i> email: name.surname@normalesup.org
+</noscript>
