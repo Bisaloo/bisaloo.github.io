@@ -19,6 +19,8 @@ navbar:
       href: https://www.flickr.com/photos/138630183@N03/albums
     - text: "Contact"
       href: contact.html
-    - text: "Copyleft"
-      href: credits.html
+    - icon: fab fa-github
+      href: https://github.com/bisaloo/bisaloo.github.io
 output: distill::distill_article
+creative_commons: CC BY-SA
+repository_url: https://github.com/bisaloo/bisaloo.github.io
