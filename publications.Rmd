@@ -13,6 +13,34 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Peer-reviewed publications
 
+```{r}
+library(magrittr)
+
+bibfile <- tempfile(fileext = ".bib")
+
+httr2::request("https://api.archives-ouvertes.fr/search/?q=authIdHal_s:hugo-gruson&wt=bibtex") %>%
+  httr2::req_perform() %>%
+  httr2::resp_body_string() %>%
+  write(bibfile)
+```
+
+```{r, results='asis'}
+b <- tools::bibstyle(
+  "by_year", 
+  fmtPrefix = function(paper) "-", 
+  .init = TRUE, 
+  sortKeys = function(refs) rank(purrr::map_chr(unclass(refs), "year"))
+)
+
+bibtex::read.bib(bibfile) %>%
+  purrr::keep(~ attr(unclass(.x)[[1]], "bibtype") == "Article") %>%
+  sort(.bibstyle = "by_year", decreasing = TRUE) %>%
+  purrr::map_chr(format, "html", .bibstyle = "by_year") %>%
+  purrr::map_chr(~ gsub("Gruson H", "**Gruson H**", .x)) %>%
+  paste(collapse = "\n") %>%
+  cat()
+```
+
 ## Invited blog posts and news items
 
 <p>

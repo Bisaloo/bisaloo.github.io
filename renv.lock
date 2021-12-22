@@ -61,6 +61,16 @@
       "Repository": "CRAN",
       "Hash": "543776ae6848fde2f48ff3816d0628bc"
     },
+    "bibtex": {
+      "Package": "bibtex",
+      "Version": "0.4.3",
+      "Source": "Repository",
+      "Repository": "https://ropensci.r-universe.dev",
+      "RemoteUrl": "https://github.com/ropensci/bibtex",
+      "RemoteRef": "master",
+      "RemoteSha": "1c0e12d0fbf9aefea4e72c4aef1c40b0b972cf6a",
+      "Hash": "307b0da3e4150a4b6f6206fb7ec2c166"
+    },
     "bookdown": {
       "Package": "bookdown",
       "Version": "0.24.4",
@@ -340,6 +350,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "03b7076c234cb3331288919983326c55"
+    },
+    "purrr": {
+      "Package": "purrr",
+      "Version": "0.3.4.9000",
+      "Source": "Repository",
+      "Repository": "tidyverse",
+      "Hash": "6cf07ee4ae49c70a646a4b85c3e2051b"
     },
     "rappdirs": {
       "Package": "rappdirs",
