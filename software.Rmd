@@ -4,24 +4,31 @@ site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
-
+library(magrittr)
 ```
 
 # [R packages](https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html)
 
-- [pavo](https://cran.r-project.org/package=pavo), with Rafael Maia and Tom White: A cohesive framework for parsing, analysing and organising colour from spectral data. Peer-reviewed and published by Methods in Ecology and Evolution.
-  
-- [lightr](https://cran.r-project.org/package=lightr) with Rafael Maia and Tom White: Parse various reflectance/transmittance/absorbance spectra file formats to extract spectral data and metadata. Peer-reviewed by rOpenSci and published in Journal of Open Source Software.
-
-- [rromeo](https://cran.r-project.org/package=rromeo), with Matthias Grenié: Fetches information from the ['SHERPA/RoMEO API'](http://www.sherpa.ac.uk/romeo/apimanual.php) which indexes policies of journal regarding the archival of scientific manuscripts before and/or after peer-review as well as formatted manuscripts. Peer-reviewed by rOpenSci.
-
-- [contactdata](https://cran.r-project.org/pavo=contactdata): Data package for the supplementary data in [Prem et al. (2017). Provides easy access to contact data for 152 countries, for use in epidemiological, demographic or social sciences research.
-
-- [asymptor](https://cran.r-project.org/package=asymptor): The asymptor R package allows you to estimate the lower and upper bound of asymptomatic cases in an epidemic using the capture/recapture methods from [Böhning et al. (2020)](https://doi.org/10.1016/j.ijid.2020.06.009) and [Rocchetti et al. (2020)](https://doi.org/10.1101/2020.07.14.20153445)
+```{r, results='asis'}
+jsonlite::stream_in(url("https://bisaloo.r-universe.dev/stats/descriptions"), verbose = FALSE) %>%
+  dplyr::arrange(Package) %>%
+  split(rownames(.)) %>%
+  purrr::map(unlist) %>%
+  purrr::map_chr(function(e) {
+    knitr::knit_expand(
+      "_software-item.Rmd", 
+      Package = e[["Package"]],
+      Title = e[["Title"]],
+      pkgdown_url = strsplit(e[["URL"]], ",")[[1]][1]
+    )
+  }) %>%
+  { knitr::knit_child(text = unlist(.), quiet = TRUE) } %>%
+  cat(sep = "\n")
+```
 
 # Other software
 
