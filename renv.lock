@@ -205,10 +205,10 @@
     },
     "ellipsis": {
       "Package": "ellipsis",
-      "Version": "0.3.2.9000",
+      "Version": "0.3.2",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "a5d577229b7664db7ff3dba0ec940e05",
+      "Hash": "bb0eec2fe32e88d9e2836c2f73ea2077",
       "Requirements": [
         "rlang"
       ]
@@ -484,10 +484,10 @@
     },
     "rstudioapi": {
       "Package": "rstudioapi",
-      "Version": "0.13.0-9000",
+      "Version": "0.13",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "9f4b1f2c6edca06a0127f2c79918b9bc",
+      "Hash": "06c85365a03fdaf699966cc1d3cf53ea",
       "Requirements": []
     },
     "stringi": {
