@@ -1,7 +1,7 @@
 name: "bisaloo.github.io"
-title: "My Website"
+title: "Hugo Gruson"
 description: |
-  My Website
+  Hugo Gruson personal website
 output_dir: "_site"
 navbar:
   right:
