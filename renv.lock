@@ -26,10 +26,10 @@
     },
     "askpass": {
       "Package": "askpass",
-      "Version": "1.1.0",
+      "Version": "1.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "37d6d26d2017de8c502b549fcad94dea",
+      "Hash": "e8a22846fff485f0be3770c2da758713",
       "Requirements": [
         "sys"
       ]
