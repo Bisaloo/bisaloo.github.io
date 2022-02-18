@@ -215,10 +215,10 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.14.1",
+      "Version": "0.14",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "f45d658ec51ed850a3e8071554b15b2c",
+      "Hash": "ec8ca05cffcc70569eaaad8469d2a3a7",
       "Requirements": []
     },
     "fansi": {
@@ -476,10 +476,10 @@
     },
     "rprojroot": {
       "Package": "rprojroot",
-      "Version": "2.0.2.9000",
+      "Version": "2.0.2",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "6653e4f84c42596eba4fd786080cc1f0",
+      "Hash": "249d8cd1e74a8f6a26194a91b47f21d1",
       "Requirements": []
     },
     "rstudioapi": {
@@ -500,20 +500,14 @@
     },
     "stringr": {
       "Package": "stringr",
-      "Version": "1.4.0.9000",
+      "Version": "1.4.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "4c162f2c0e52c24c2fe6d901b93d425e",
+      "Hash": "0759e6b6c0957edb1311028a49a35e76",
       "Requirements": [
-        "cli",
-        "ellipsis",
         "glue",
-        "lifecycle",
         "magrittr",
-        "rlang",
-        "stringi",
-        "vctrs",
-        "withr"
+        "stringi"
       ]
     },
     "sys": {
