@@ -421,23 +421,21 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "0.3.4.9000",
+      "Version": "0.3.4",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "6cf07ee4ae49c70a646a4b85c3e2051b",
+      "Hash": "97def703420c8ab10d8f0e6c72101e02",
       "Requirements": [
-        "lifecycle",
         "magrittr",
-        "rlang",
-        "vctrs"
+        "rlang"
       ]
     },
     "rappdirs": {
       "Package": "rappdirs",
-      "Version": "0.3.3.9000",
+      "Version": "0.3.3",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "2026db29e01048f626c706cf3778abd6",
+      "Hash": "5e3c5dc0b071b21fa128676560dbe94d",
       "Requirements": []
     },
     "renv": {
@@ -537,10 +535,10 @@
     },
     "tidyselect": {
       "Package": "tidyselect",
-      "Version": "1.1.1.9000",
+      "Version": "1.1.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "c72c80de91a57e761992402d2602027d",
+      "Hash": "7243004a708d06d4716717fa1ff5b2fe",
       "Requirements": [
         "ellipsis",
         "glue",
