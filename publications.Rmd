@@ -43,12 +43,9 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
-<p>
-<ul>
-<li><em>Covidpreprints.com: Automating Website Updates with the europepmc and rAltmetric Packages</em> (2020), featured on <a href="https://ropensci.org/blog/2020/10/13/covidpreprints/">rOpenSci blog</a> and <a href="https://prelights.biologists.com/news/covidpreprints-com-automating-website-updates-with-the-europepmc-and-raltmetric-packages/">preLights blog</a></li>
-<li><em>Community Captioning of rOpenSci Community Calls</em> (2020), featured on <a href="https://ropensci.org/blog/2020/07/15/subtitles/">rOpenSci blog</a></li>
-<li><em>Access Publisher Copyright &amp; Self-Archiving Policies via the 'SHERPA/RoMEO' API</em> (2019), featured on <a href="https://ropensci.org/blog/2019/06/04/rromeo/">rOpenSci blog</a></li>
-<li><em>When Standards Go Wild - Software Review for a Manuscript</em> (2019), featured on <a href="https://ropensci.org/blog/2019/04/18/wild-standards/">rOpenSci blog</a> and <a href="https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/">Methods in Ecology and Evolution blog</a></li>
-<li><em>Observatoire des oiseaux des jardins : premiers résultats</em> (2014), in L'Oiseau Mag (trimestrial magazine of BirdLife France)</li>
-</ul>
-</p>
+- *Covidpreprints.com: Automating Website Updates with the europepmc and rAltmetric Packages* (2020), featured on [rOpenSci blog](https://ropensci.org/blog/2020/10/13/covidpreprints/) [preLights blog](https://prelights.biologists.com/news/covidpreprints-com-automating-website-updates-with-the-europepmc-and-raltmetric-packages/).
+- *Community Captioning of rOpenSci Community Calls* (2020), featured on [rOpenSci blog](https://ropensci.org/blog/2020/07/15/subtitles/).
+- *Access Publisher Copyright &amp; Self-Archiving Policies via the 'SHERPA/RoMEO' API* (2019), featured on [rOpenSci blog](https://ropensci.org/blog/2019/06/04/rromeo/).
+- *When Standards Go Wild - Software Review for a Manuscript* (2019), featured on [rOpenSci blog](https://ropensci.org/blog/2019/04/18/wild-standards/) and [Methods in Ecology and Evolution blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
+- *Observatoire des oiseaux des jardins : premiers résultats* (2014), in L'Oiseau Mag (trimestrial magazine of BirdLife France).
+
