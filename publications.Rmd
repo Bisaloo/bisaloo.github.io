@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Peer-reviewed publications
 
+*(last automatic update: `r Sys.Date()`)*
+
 ```{r}
 library(magrittr)
 
@@ -43,10 +45,20 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
-- *Checking the Inputs of your R Functions* (2022), featured on [R-hub blog](https://blog.r-hub.io/2022/03/10/input-checking/).
-- *Covidpreprints.com: Automating Website Updates with the europepmc and rAltmetric Packages* (2020), featured on [rOpenSci blog](https://ropensci.org/blog/2020/10/13/covidpreprints/) [preLights blog](https://prelights.biologists.com/news/covidpreprints-com-automating-website-updates-with-the-europepmc-and-raltmetric-packages/).
-- *Community Captioning of rOpenSci Community Calls* (2020), featured on [rOpenSci blog](https://ropensci.org/blog/2020/07/15/subtitles/).
-- *Access Publisher Copyright &amp; Self-Archiving Policies via the 'SHERPA/RoMEO' API* (2019), featured on [rOpenSci blog](https://ropensci.org/blog/2019/06/04/rromeo/).
-- *When Standards Go Wild - Software Review for a Manuscript* (2019), featured on [rOpenSci blog](https://ropensci.org/blog/2019/04/18/wild-standards/) and [Methods in Ecology and Evolution blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
-- *Observatoire des oiseaux des jardins : premiers résultats* (2014), in L'Oiseau Mag (trimestrial magazine of BirdLife France).
-
+-   *Checking the Inputs of your R Functions* (2022), featured on [R-hub
+    blog](https://blog.r-hub.io/2022/03/10/input-checking/).
+-   *Covidpreprints.com: Automating Website Updates with the europepmc and
+    rAltmetric Packages* (2020), featured on [rOpenSci
+    blog](https://ropensci.org/blog/2020/10/13/covidpreprints/) [preLights
+    blog](https://prelights.biologists.com/news/covidpreprints-com-automating-website-updates-with-the-europepmc-and-raltmetric-packages/).
+-   *Community Captioning of rOpenSci Community Calls* (2020), featured on
+    [rOpenSci blog](https://ropensci.org/blog/2020/07/15/subtitles/).
+-   *Access Publisher Copyright & Self-Archiving Policies via the 'SHERPA/RoMEO'
+    API* (2019), featured on [rOpenSci
+    blog](https://ropensci.org/blog/2019/06/04/rromeo/).
+-   *When Standards Go Wild - Software Review for a Manuscript* (2019), featured
+    on [rOpenSci blog](https://ropensci.org/blog/2019/04/18/wild-standards/) and
+    [Methods in Ecology and Evolution
+    blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
+-   *Observatoire des oiseaux des jardins : premiers résultats* (2014), in
+    L'Oiseau Mag (trimestrial magazine of BirdLife France).
