@@ -1,0 +1,28 @@
+project:
+  type: website
+
+website:
+  title: "Hugo Gruson"
+  navbar:
+    background: primary
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Publications"
+        href: publications.qmd
+      - text: "Software"
+        href: software.qmd
+      - text: "Gallery"
+        href: https://www.flickr.com/photos/138630183@N03/albums
+      - text: "Contact"
+        href: contact.qmd
+      - icon: fab fa-github
+        href: https://github.com/bisaloo/bisaloo.github.io
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+editor: visual
+
