@@ -1,0 +1,140 @@
+---
+title: "Automation with GitHub Actions"
+author: "Hugo Gruson"
+date: "March 2022"
+slide-number: true
+progress: true
+mouse-wheel: true
+format: revealjs
+---
+
+## Why and what to automate?
+
+[![](https://imgs.xkcd.com/comics/is_it_worth_the_time.png)](https://xkcd.com/1205/)
+
+--------------------------------------------------------------------------------
+
+### What if xkcd was *wrong*?
+
+-   Requires to be online & available when the task needs to run
+-   Not reproducible
+-   [Mental
+    load](https://emmaclit.com/2017/05/09/repartition-des-taches-hommes-femmes/)
+
+--------------------------------------------------------------------------------
+
+### Examples
+
+-   [Automatic download of NPI data and
+    mapping](https://hugogruson.fr/semaforos/articles/semaforos.html#map-of-semaforos-over-time)
+-   [Automatic update of publication
+    list](https://hugogruson.fr/publications.html)
+-   [Semi-automatic update of team publication
+    list](https://github.com/epiforecasts/epiforecasts.github.io/issues/3)
+-   [Automatic forecast generation and upload to a forecast
+    hub](https://github.com/covid19-forecast-hub-europe/covid19-forecast-hub-europe/pull/1716)
+-   [Bossy slack bot](https://github.com/epiforecasts/slack_bot)
+
+Good for repetitive, menial tasks.
+
+More time for ~~watching movies~~ focusing on more interesting tasks.
+
+## Benefits of GitHub Actions over alternatives
+
+Most famous automation system: cron
+
+GitHub Actions:
+
+-   Scheduling system (and extra triggers) ← cron
+-   Server to run code
+-   Notification system
+
+Automation code is open-source as well
+
+## Syntax
+
+``` yml
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+```
+
+## Syntax: re-using existing blocks
+
+![](img/puzzle.svg)
+
+## Syntax: re-using existing blocks
+
+``` yml
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+```
+
+## Resources
+
+-   Built-in documentation and GUI: [live
+    demo](https://github.com/epiforecasts/covid19_uk_local/edit/main/.github/workflows/rt.yaml)
+-   Workflows for R packages (`R CMD check`, code coverage, pkgdown, etc.)
+    available in `{usethis}`
+-   Source of inspiration: [`r-lib/actions`
+    repo](https://github.com/r-lib/actions/tree/v2-branch/examples)
+-   [GitHub official marketplace](https://github.com/marketplace?type=actions)
+-   🙋
+
+## Over to you
+
+-   Do you think you could benefit from using GitHub Actions?
+-   What kind of task do you have to do on a regular basis?
+-   How can I support you in using GitHub Actions?
+
+## Missing features
+
+-   No way to centralize infrastructure / updates for organisations
+-   Difficult to test locally. <https://github.com/nektos/act> looks nice but I
+    can't get it to work for complex cases, where I need it the most
+
+## Final words
+
+All automation needs to be done in the context of a reflection on our economic
+system.

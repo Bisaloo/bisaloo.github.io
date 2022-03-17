@@ -12,6 +12,8 @@ website:
         href: publications.qmd
       - text: "Software"
         href: software.qmd
+      - text: "Presentations"
+        href: slides.qmd
       - text: "Gallery"
         href: https://www.flickr.com/photos/138630183@N03/albums
       - text: "Contact"
