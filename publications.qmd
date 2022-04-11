@@ -45,6 +45,8 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
+-   *Dealing with flaky GitHub Actions* (2022), featured on [EpiForecasts
+    blog](https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html)
 -   *Checking the Inputs of your R Functions* (2022), featured on [R-hub
     blog](https://blog.r-hub.io/2022/03/10/input-checking/).
 -   *Covidpreprints.com: Automating Website Updates with the europepmc and
