@@ -18,7 +18,8 @@ website:
         href: https://www.flickr.com/photos/138630183@N03/albums
       - text: "Contact"
         href: contact.qmd
-      - icon: fab fa-github
+    right:
+      - icon: github
         href: https://github.com/bisaloo/bisaloo.github.io
 
 format:
