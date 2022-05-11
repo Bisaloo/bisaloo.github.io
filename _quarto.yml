@@ -8,6 +8,8 @@ website:
     left:
       - text: "Home"
         href: index.qmd
+      - text: "CV"
+        href: https://orcid.org/0000-0002-4094-1476
       - text: "Publications"
         href: publications.qmd
       - text: "Software"
