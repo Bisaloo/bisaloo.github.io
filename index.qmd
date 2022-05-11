@@ -1,30 +1,62 @@
----
-title: "Hello world"
-site: distill::distill_website
----
+### Hello world
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+I'm Hugo Gruson \[*ygo gʁyzɔ̃*\]. I'm primarily an Evolutionary Biologist but I
+fell in love with R and package development during my PhD. I am now a Research
+Software Engineer in Epidemiology and I can enjoy building tools to facilitate
+research of others.
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
+I'm particularly proud about the following R packages I'm maintaining or I've
+helped build:
 
-```
+-   [pavo](https://github.com/rmaia/pavo)\*: Perceptual Analysis, Visualization
+    and Organization of Spectral Colour Data
+-   [lightr](https://github.com/ropensci/lightr)\*: Read Spectrometric Data and
+    Metadata
+-   [rromeo](https://github.com/ropensci/rromeo)\*: Access Publisher Copyright &
+    Self-Archiving Policies via the 'SHERPA/RoMEO' API
+-   [mcmcensemble](https://github.com/bisaloo/mcmcensemble)\*: Ensemble Sampler
+    for Affine-Invariant MCMC
+-   [contactdata](https://github.com/bisaloo/contactdata): Social Contact
+    Matrices for 152 Countries
+-   [asymptor](https://github.com/bisaloo/asymptor): Estimate Asymptomatic Cases
+    via Capture/Recapture Methods
+-   [fundiversity](https://github.com/bisaloo/fundiversity)\*: Easy Computation
+    of Alpha Functional Diversity Indices
+-   [cransays](https://github.com/r-hub/cransays)\*: Creates an Overview of CRAN
+    Incoming Submissions
 
-My name is Hugo Gruson, I am an ecologist and an evolutionary biologist. My
-research interests focus on species competitive interactions and how they shape
-the species current characteristics: geographic range, behavioral traits, color,
-etc. My primary focus is on birds but I would be happy to work on another clade
-as to me, the topic matters more than the model species.
+(\* collaborative projects. Please check the full list of authors!)
 
-![](src/hummingbird_1024x1024.jpg)
+I'm always super happy to receive feedback about my packages so feel free to get
+in touch to talk about any problems you encounter, possible improvements,
+feature requests and just tell me about how you used my packages! I want my
+projects to be really community projects and not just open-source projects.
 
-During my free time, I am always trying to learn new stuff, no matter what it
-is: how to build and maintain a bike? How does cryptography work and what are
-its applications? What do clouds tell us about the air mass and how to predict
-the weather looking at them? etc. I also enjoy a lot being outdoors: biking,
-hiking, climbing, kayaking, birdwatching... As soon as the weather allows it, I
-go outside, sometimes even before sunrise. Hugo crossing a river on a dead
-trunk.
+But I didn't get started with open-source development with R packages. My
+initial involvement in a community project was with [HTTPS
+Everywhere](https://github.com/EFForg/https-everywhere), a browser extension to
+force HTTPS connection to websites via a manually curated list of rewrite rules.
+I started as a happy user who wanted to increase the HTTPS coverage provided by
+the extension. I enjoyed the experience of collaborating to build something
+great together and continued contributing, until I eventually became one of the
+main contributors and then a ruleset maintainer.
+
+You can interact with me here on GitHub or on Twitter
+([\@grusonh](https://twitter.com/grusonh))!
+
+#### If I submitted a PR in one of your repository
+
+Below are some things to know if I submitted a PR in a repository:
+
+-   my PRs are just suggestions. Feel free to request any amount of tweaks
+    before merging or even to close them if you don't like my changes or if you
+    can think of a better way to fix them.
+-   in general, I prefer to be asked to tweak my changes myself rather than you
+    directly editing on my branch. I think this provides better learning
+    opportunities. However, if I left you the technical possibility to do it, it
+    means you can go ahead if you think that's a better option
+-   I usually try to re-organise my commits in a logical way before submitting a
+    PR. Because of this, I strongly recommend you review my changes commit by
+    commit. This will be much easier than reviewing all changes at once.
 
 ![](src/hollandlake_1024x1024.jpg)
