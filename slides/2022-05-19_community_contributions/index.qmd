@@ -1,0 +1,49 @@
+---
+title: "Community Contributions to Open-Source Projects"
+author: "Hugo Gruson"
+date: "May 2022"
+slide-number: true
+progress: true
+mouse-wheel: true
+format: revealjs
+---
+
+## Disclaimer
+
+These slides only serve as a starting point for the discussion.
+
+All content is only based on my personal experience. Actual research has been
+conducted in this area and I should definitely spend more time reading it.
+
+## Why should we encourage community contributions?
+
+-   social aspect: more motivation when part of a community
+-   addition of diverse experience, skills and backgrounds ➔ larger chance to
+    converge to the "optimal" solution
+-   more contributors ➔ more time ➔ higher-quality code
+
+## Why should we contribute?
+
+-   opportunity for new collaborations
+-   save time for others (including your future self)
+
+## No magic formula
+
+## What motivates me to contribute to open-source?
+
+Sense of duty / accomplishment
+
+## What discourages me to contribute to open-source?
+
+-   Lack of explicit invitation to contribute
+-   Lack of responsiveness / dead project
+-   Technical hurdles (detailed after)
+
+## Technical hurdles
+
+-   Lack of contributing documentation
+-   High mental load: spambots, new tools, etc.
+
+## Sustaining engagement
+
+-   Acknowledge contributors (making them co-authors or co-maintainers)
