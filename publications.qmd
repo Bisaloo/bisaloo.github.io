@@ -45,8 +45,11 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
+-   *Why you You Should (or Shouldn't) Build an API client?* (2022), featured on
+    [rOpenSci
+    blog](https://ropensci.org/blog/2022/06/16/publicize-api-client-yes-no/).
 -   *Dealing with flaky GitHub Actions* (2022), featured on [EpiForecasts
-    blog](https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html)
+    blog](https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html).
 -   *Checking the Inputs of your R Functions* (2022), featured on [R-hub
     blog](https://blog.r-hub.io/2022/03/10/input-checking/).
 -   *Covidpreprints.com: Automating Website Updates with the europepmc and
@@ -64,3 +67,4 @@ bibtex::read.bib(bibfile) %>%
     blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
 -   *Observatoire des oiseaux des jardins : premiers résultats* (2014), in
     L'Oiseau Mag (trimestrial magazine of BirdLife France).
+
