@@ -45,9 +45,14 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
--   *Why you You Should (or Shouldn't) Build an API client?* (2022), featured on
+-   *Opening the door to new contributors in open source projects* (2022),
+    featured on the [Software Sustainability Institute
+    blog](https://www.software.ac.uk/blog/2022-06-22-opening-door-new-contributors-open-source-projects).
+-   *Why You Should (or Shouldn't) Build an API client?* (2022), featured on
     [rOpenSci
     blog](https://ropensci.org/blog/2022/06/16/publicize-api-client-yes-no/).
+    -   Commented in the [R Weekly Highlights
+        podcast](https://share.fireside.fm/episode/87RSVeFz+4qaUu8e0?t=538)
 -   *Dealing with flaky GitHub Actions* (2022), featured on [EpiForecasts
     blog](https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html).
 -   *Checking the Inputs of your R Functions* (2022), featured on [R-hub
@@ -67,4 +72,3 @@ bibtex::read.bib(bibfile) %>%
     blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
 -   *Observatoire des oiseaux des jardins : premiers résultats* (2014), in
     L'Oiseau Mag (trimestrial magazine of BirdLife France).
-
