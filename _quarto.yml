@@ -10,6 +10,8 @@ website:
         href: index.qmd
       - text: "CV"
         href: https://orcid.org/0000-0002-4094-1476
+      - text: "Blog"
+        href: blog.qmd
       - text: "Publications"
         href: publications.qmd
       - text: "Software"
