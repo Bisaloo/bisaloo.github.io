@@ -45,6 +45,11 @@ bibtex::read.bib(bibfile) %>%
 
 ## Invited blog posts and news items
 
+-   *Things that can go wrong when using renv* (2024), featured on the 
+    [Epiverse-TRACE blog](https://epiverse-trace.github.io/posts/renv-complications/).
+
+    -   Commented in the [R Weekly Highlights podcast](https://podverse.fm/episode/0sHRnfFvH)
+
 -   *System dependencies in R packages and automatic testing* (2023), featured
     on the [R-hub blog](https://blog.r-hub.io/2023/09/26/system-dependency/)
 
