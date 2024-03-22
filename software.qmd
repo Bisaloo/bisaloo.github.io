@@ -32,4 +32,5 @@ jsonlite::stream_in(url("https://bisaloo.r-universe.dev/stats/descriptions"), ve
 
 # Other software
 
-- [ULM (Unified Life Models)](https://www.biologie.ens.fr/~legendre/ulm/ulm.html) with Stéphane Legendre, François Bienvenu, Guilhem Doulcier, and Maxime Woringer: Software coded in free pascal, with a GTK or Qt graphical interface, enabling the simulation and analysis of deterministic and stochastic discrete time dynamical systems for population dynamics modeling.
+-   [ULM (Unified Life Models)](https://www.biologie.ens.fr/~legendre/ulm/ulm.html) with Stéphane Legendre, François Bienvenu, Guilhem Doulcier, and Maxime Woringer: Software coded in free pascal, with a GTK or Qt graphical interface, enabling the simulation and analysis of deterministic and stochastic discrete time dynamical systems for population dynamics modeling.
+-   [HTTPS Everywhere](https://www.eff.org/https-everywhere) as a volunteer maintainer under the leadership of the Electronic Frontier Foundation: HTTPS Everywhere is a browser extension that forces encryption for many major websites, making your browsing more secure.
