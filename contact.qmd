@@ -12,13 +12,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-<address>
-  <strong>Hugo Gruson</strong><br>
-  London School of Hygiene and Tropical Medicine<br>
-  Keppel Street<br>
-  London, WC1E 7HT
-</address>
-
 <p id="mail"></p>
 <script>
   var utilisateur = "hugo.gruson" ;
