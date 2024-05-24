@@ -1,0 +1,135 @@
+---
+title: "Make your functions compa-tibble"
+author:
+  - name: "Hugo Gruson"
+    orcid: "0000-0002-4094-1476"
+date: "2024-05-27"
+categories: [R, interoperability, tidyverse, tibble]
+---
+
+tibbles are described as ["a modern reimagining of the data.frame, with subtle differences in the way the default data.frame behaviour, based on years of experience"](https://tibble.tidyverse.org/).
+
+Users will sometimes go from data.frame to tibbles and vice-versa interchangeably. And the subtle differences mentioned above can produce errors or unexpected results.
+
+Even if you verify that the user provided input is a data.frame (via `inherits(input, "data.frame"`), it may end up being a tibble rather than a "standard" data.frame as tibbles still inherit from data.frame.
+
+```{r}
+data(starwars, package = "dplyr")
+class(starwars)
+```
+
+A simple option when you write functions (as when developing packages) may seem to force users to use either data.frame or tibble:
+
+``` r
+f_only_tibbles <- function(x) {
+  if (!inherits(x, "tbl_df")) {
+    stop("x must be a tibble")
+  }
+  # ...
+}
+
+f_only_dataframes <- function(x) {
+  if (identical(class(x), "data.frame")) {
+    stop("x must be a data.frame, without any other subclass")
+  }
+  # ...
+}
+```
+
+But being overly strict in inputs can be discouraging to users and this extra friction is not necessary. After all, tibbles 
+**are** data.frames, and we can make sure we support them alongside data.frames.
+
+In this post, we will see how to make your functions **compa-tibble**, i.e., how you can support invisibly both data.frame and tibble as inputs.
+
+```{r}
+df  <- cars
+tbl <- tibble::as_tibble(cars)
+```
+
+## Don't rely on `drop = TRUE` being the default
+
+This is probably the most important point of this post and the most common offender. This can arise when you want to pass a column to function expecting a vector, such as `mean()` in the following example:
+
+```{r}
+# Example function to compute the mean of a specific column.
+mean_col <- function(data, col_index) {
+  mean(data[, col_index])
+}
+
+mean_col(df, 1)
+mean_col(tbl, 1)
+```
+
+If we want to support both standard data.frames and tibbles, we have to adjust the `mean_col()` source slightly, and explicitly specify that we want the extracted column to be returned as a vector:
+
+```{r}
+compatibble_mean_col <- function(data, col_index) {
+  mean(data[, col_index, drop = TRUE])
+}
+
+compatibble_mean_col(df, 1)
+compatibble_mean_col(tbl, 1)
+```
+
+## Don't rely on partial matching
+
+By default, many R mechanisms will not always require typing the entire argument or column name, a mechanism known as [partial matching](https://search.r-project.org/R/refmans/base/html/charmatch.html).
+But partial matching is often criticized as fragile, and prone to unexpected behaviours when the code is updated.
+As a result, it has been disabled in tibbles:
+
+```{r}
+mean_speed <- function(data) {
+  # "s" will be partially matched to "speed". But only in standard data.frames
+  mean(data$s)
+}
+
+mean_speed(df)
+mean_speed(tbl)
+```
+
+The good news is that you can ensure you don't rely on partial matching by setting `options(warnPartialMatchDollar = TRUE)` in your `.Rprofile`. It can also be set temporarily in the current session:
+
+```{r}
+options(warnPartialMatchDollar = TRUE)
+mean_speed(df)
+```
+
+If you're using testthat, you can also set this as part of your continuous integration by creating a special `setup-options.R` file in `tests/testthat/`:
+
+``` {.r filename="tests/testthat/setup-options.R"}
+options(warnPartialMatchDollar = TRUE)
+```
+
+The warnings here lead us to creating a more robust, and compa-tibble version of `mean_speed()`, which doesn't rely on partial matching:
+
+```{r}
+compatibble_mean_speed <- function(data) {
+  mean(data$speed)
+}
+
+compatible_mean_speed(df)
+compatible_mean_speed(tbl)
+```
+
+If, for some reason, you really need to support partial matching, you will need to manually handle it for tibbles:
+
+```{r}
+mean_speed_partialmatch <- function(data) {
+  col <- charmatch("s", colnames(data))
+  mean(data[[col]])
+}
+
+mean_speed_partialmatch(df)
+mean_speed_partialmatch(tbl)
+```
+
+## Other differences, and how to deal with them
+
+We have presented the most common issues I encountered in my own packages when trying to add support for tibbles but the tibble package provides a [longer vignette with all the differences between tibbles and data.frames](https://tibble.tidyverse.org/articles/invariants.html).
+To get fully compa-tibble, I encourage you go through it and identify patterns you tend to use in your code and which lead to different behaviours in data.frame and tibbles.
+
+Because of the many (admittedly less common than the ones presented here) differences, the only way to properly ensure you have full compa-tibbility and you don't break it with future updates, is to actually run tests with both data.frames and tibbles.
+
+At the moment, the simplest option is probably to run the same tests on manually crafted inputs: one data.frame, and its tibble equivalent. If you really want to avoid the repetition, you could have a look at the [patrick R package](https://cran.r-project.org/package=patrick), which allows to run parametrized tests.
+
+In the future, I will probably recommend doing this via mutation testing. The [autotest R package](https://docs.ropensci.org/autotest/index.html) for example proposes the automatic detection of data.frame inputs, and the automatic mutation of these inputs to other rectangular formats, which could include tibbles.
