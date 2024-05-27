@@ -107,8 +107,8 @@ compatibble_mean_speed <- function(data) {
   mean(data$speed)
 }
 
-compatible_mean_speed(df)
-compatible_mean_speed(tbl)
+compatibble_mean_speed(df)
+compatibble_mean_speed(tbl)
 ```
 
 If, for some reason, you really need to support partial matching, you will need to manually handle it for tibbles:
