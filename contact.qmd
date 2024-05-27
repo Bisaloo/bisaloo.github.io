@@ -1,16 +1,7 @@
 ---
 title: "Contact"
 description: Please contact me if you find any broken links, typos or awkward code.
-site: distill::distill_website
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-```
 
 <p id="mail"></p>
 <script>
