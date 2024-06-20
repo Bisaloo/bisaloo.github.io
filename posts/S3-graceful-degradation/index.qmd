@@ -1,5 +1,5 @@
 ---
-title: "Graceful Degradation / Progressive Enhancement in Object-Oriented Programming"
+title: "Graceful Degradation and Progressive Enhancement in Object-Oriented Programming"
 author:
   - name: "Hugo Gruson"
     orcid: "0000-0002-4094-1476"
