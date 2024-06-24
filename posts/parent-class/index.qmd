@@ -1,5 +1,5 @@
 ---
-title: "Graceful Degradation and Progressive Enhancement in Object-Oriented Programming"
+title: "Choosing the Right Parent for R Object Classes"
 author:
   - name: "Hugo Gruson"
     orcid: "0000-0002-4094-1476"
@@ -13,13 +13,7 @@ But there are still questions I have not addressed directly, even if they may ha
 
 As you can expect from these questions, this post may be slightly more subjective than the previous ones on this topic.
 
-I will argue that it is often a good strategy to inherit from existing standards classes, and to leverage this inheritance relationship as much as possible. In some way, this is the transposition of a common principle in web development that we usually don't talk about in software development: [graceful degradation](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation), or [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement) [^1].
-
-[^1]: Both design philosophy are often opposed but this debate is not relevant to this blog post. We specifically focus on providing support to both situations, without going as deep as discussing whether the standard classes should be the baseline or the fall-back.
-
-Graceful degradation in web development is the idea that web pages should not require specific recent browser features, but we should always ensure pages are still displayed in a controlled and useful way no matter what, potentially with some bells and whistles off.
-
-I propose we look together today at what this principle may mean in software development, and more specifically in object-oriented programming. If you've never considered this idea, it may sound a bit forced but I think the previous posts would have hopefully primed a little. If you haven't read the previous posts, I would thus recommend you pause reading this post and start with the others.
+I will argue that it is often a good strategy to inherit from existing standards classes, and to leverage this inheritance relationship as much as possible.
 
 ## Inherit from standard classes
 
@@ -41,17 +35,16 @@ Similarly, many developers have the reflex to write a custom `print.subclass()` 
 
 ## Enable conversion to standard classes
 
-If after careful consideration, extra metadata makes it too difficult to fit your new class into an existing class, you may sometimes have to define your own class.
+If after careful consideration, extra metadata makes it too difficult to fit your new class into an existing class, you may sometimes have to define your own class from "scratch" (i.e., often `list()` in R).
 
-But even in this case, you can still apply some principles of graceful degradation. As much as possible, you should provide helpers or methods to enable the streamlined conversion (or graceful degradation) of your method to a standard class.
+But even in this case, you can still apply some of the ideas proposed earlier. As much as possible, you should provide helpers or methods to enable the streamlined conversion of your method to a standard class.
 
-A good example here is the [epiparameter](https://github.com/epiverse-trace/epiparameter) package, which provides a complex S3 class built on lists, including extensive metadata about probability distribution of epidemiological parameters.
-As such, this custom class cannot be used out of the box in most functions from other packages. [But an `as.function()` method is conveniently provided to enables the conversion of this probability distribution parameters into a density distribution](https://github.com/epiverse-trace/epiparameter/blob/0f805b90f984def4851a78148f1cf44c3d480845/R/coercion.R#L18-L41), which can then be used in functions which expect a `function` object.
+A good example here is the [epiparameter](https://github.com/epiverse-trace/epiparameter) package, which provides a complex S3 class built on lists, including extensive metadata about probability distribution of epidemiological parameters. As such, this custom class cannot be used out of the box in most functions from other packages. [But an `as.function()` method is conveniently provided to enables the conversion of this probability distribution parameters into a density distribution](https://github.com/epiverse-trace/epiparameter/blob/0f805b90f984def4851a78148f1cf44c3d480845/R/coercion.R#L18-L41), which can then be used in functions which expect a `function` object.
 
 ## Conclusion
 
-Overall, these tips on graceful degradation in class and function design should help produce a package:
+Overall, these tips on relying of strong parent classes and their existing ecosystems should help produce a package:
 
-- more easily accessible for users because it uses objects that feel familiar
-- more maintainable because a lot of method writing is offloaded to the parent class
-- more likely to be interoperable because standard classes are a good way to pass data between functions or packages
+-   more easily accessible for users because it uses objects that feel familiar
+-   more maintainable because a lot of method writing is offloaded to the parent class
+-   more likely to be interoperable because standard classes are a good way to pass data between functions or packages
