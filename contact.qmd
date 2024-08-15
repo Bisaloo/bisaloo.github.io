@@ -17,3 +17,5 @@ description: Please contact me if you find any broken links, typos or awkward co
 <noscript>
   <i class="fa fa-envelope"></i> email: name.surname@normalesup.org
 </noscript>
+
+<a rel="me" href="https://mastodon.social/@grusonh">Mastodon</a>
