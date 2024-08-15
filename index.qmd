@@ -41,8 +41,7 @@ the extension. I enjoyed the experience of collaborating to build something
 great together and continued contributing, until I eventually became one of the
 main contributors and then a ruleset maintainer.
 
-You can interact with me here on GitHub or on Twitter
-([\@grusonh](https://twitter.com/grusonh))!
+You can interact with me here on GitHub or on <a rel="me" href="https://mastodon.social/@grusonh">Mastodon</a>!
 
 #### If I submitted a PR in one of your repository
 
