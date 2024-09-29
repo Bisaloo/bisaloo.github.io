@@ -30,7 +30,7 @@ b <- tools::bibstyle(
 )
 
 bibtex::read.bib(bibfile) %>%
-  purrr::keep(~ attr(unclass(.x)[[1]], "bibtype") == "Article") %>%
+  purrr::keep(~ identical(attr(unclass(.x)[[1]], "bibtype"), "Article")) %>%
   sort(.bibstyle = "by_year", decreasing = TRUE) %>%
   purrr::map_chr(format, "html", .bibstyle = "by_year") %>%
   purrr::map_chr(~ gsub("Gruson H", "**Gruson H**", .x)) %>%
