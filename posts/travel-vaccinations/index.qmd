@@ -1,0 +1,221 @@
+---
+title: "Politely mapping recommended travel vaccines"
+author:
+  - name: "Hugo Gruson"
+    orcid: "0000-0002-4094-1476"
+date: "2024-05-27"
+categories: [R, web scraping, rvest, health]
+execute:
+  warning: false
+---
+
+Ahead of any trip I am planning, I check if any travel vaccines are recommended, because of the potential presence of pathogens that may not be present in my home country.
+
+There are a number a great authoritative sources for this, often managed by the national health authorities of your home country. This service is for example provided by [the CDC](https://wwwnc.cdc.gov/travel) in the US, [l'Institut Pasteur](https://www.pasteur.fr/fr/centre-medical/preparer-son-voyage) in France, or [TravelHealthPro](https://travelhealthpro.org.uk/countries) in the UK.
+
+All the listed websites have a similar structure: one page per country, will the recommended vaccines, prophylaxis treatments, and general recommendations. But none of them provided a visualization to answer my question:
+
+**For each vaccine, for which destination are they recommended?**
+
+In other words, can we change the "country-view" to a "vaccine-view"?
+
+Beyond the simple scientific curiosity, this can help the decision to take less useful vaccines because they might be beneficial for other future trips.
+
+::: callout-tip
+If you do not care about the technical walkthrough, you can [jump straight to the final result](#final-plot).
+:::
+
+Since the websites do not provide this view, let's build it ourselves!
+
+For this, we need to gather the data, and then plot it. Since the data is not provided directly as a dataset, or via an [API](https://en.wikipedia.org/wiki/Web_API), our only resort is web scraping: loading the webpage programmatically and selectively extract the elements we are interested in by parsing the HTML code. A common tool for web scraping is the [rvest R package](https://rvest.tidyverse.org/) which we will use below.
+
+## Getting the list of covered countries
+
+The list of countries is present on the following page: <https://wwwnc.cdc.gov/travel/destinations/list> and can be extracted relatively quickly by selecting all the list (`<li>`) elements in each letter category (`<div id='group-a'>` for letter A, etc.):
+
+```{r, cache = TRUE}
+country_pages <- rvest::read_html("https://wwwnc.cdc.gov/travel/destinations/list") |> 
+  rvest::html_elements(xpath = "//div[starts-with(@id, 'group-')]//li//a/@href") |>
+  rvest::html_text() |>
+  unique()
+```
+
+::: aside
+If you are wondering how to read the value of the `xpath` argument on line 2, you can read Maëlle Salmon's post on this topic: [Why I like XPath, XML and HTML](https://masalmon.eu/2022/04/08/xml-xpath/).
+:::
+
+From this, we get a vector character where each element is the location of the page containing the location for the specific country.
+
+```{r}
+head(country_pages)
+```
+
+To continue, we will have to visit each country page and extract the recommendations from this page. This means we will do `r length(country_pages)+1` requests (number of elements in the list + 1 for the request we just did).
+
+This raises an alarm bell: is it okay to automatically send so many requests to a third-party website?
+
+## Scraping web data politely
+
+Indeed, scraping differs from interacting with APIs in the sense that the webpages we are scraping were not necessarily intended to be visited a large amount of times in a short timespan by a script. In some cases, scraping a website without extra care may result in reduced performance for other visitors or the site or get yourself blocked from this website.
+
+To prevent accidents, websites will generally tell you what acceptable ways of scraping (or not!) their data are. This is done in a machine readable format in the [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) file.
+
+```{r, cache = TRUE}
+httr::GET("https://wwwnc.cdc.gov/robots.txt") |> 
+  httr::content() |> 
+  cat()
+```
+
+It can contain information about which pages should not be scraped, who shouldn't scrape the website, and the acceptable rate at which you can make request.
+
+Since it is machine-readable, reading the `robots.txt` and adapting our behaviour accordingly can be fully automated. This is what the [polite R package](https://dmi3kno.github.io/polite/) is doing.
+
+polite is well integrated with rvest and only minimal changes are required to make rvest code polite. The code posted previously thus becomes:
+
+```{r, cache = TRUE}
+# Initialize scraping session
+session <- polite::bow("https://wwwnc.cdc.gov")
+
+country_pages <- polite::nod(session, "/travel/destinations/list") |>
+  polite::scrape() |>
+  rvest::html_elements(xpath = "//div[starts-with(@id, 'group-')]//li//a/@href") |>
+  rvest::html_text() |>
+  unique()
+```
+
+With this mind, we can move ahead with our scraping task and have a look at each country page to extract the recommended vaccines. We define a helper function `parse_country_page()` for this. Comments are added inline but the logic is the same as for the main page from which we got the list of countries:
+
+1.  We use polite to handle the rate limiting, etc.
+2.  We extract the specific element we are interested in with XPath
+
+```{r}
+parse_country_page <- function(session, path) {
+  message(basename(path))
+
+  page <- session |>
+    polite::nod(path) |>
+    polite::scrape()
+
+  page |>
+    rvest::html_elements(xpath = "//h3[text()='Vaccines and Medicines']/parent::div/following-sibling::div//table//td[@class='clinician-disease']/a") |>
+    rvest::html_text()
+
+}
+```
+
+This function can now be run on each country page with a loop [^1]:
+
+[^1]: See the [blog post 'Lesser-known reasons to prefer `apply()` over for loops'](https://epiverse-trace.github.io/posts/for-vs-apply/) on why I use `purrr::map()` here rather than a `for` loop.
+
+```{r eval = FALSE}
+recos <- country_pages |>
+  purrr::map(\(path) parse_country_page(session, path))
+
+names(recos) <- basename(country_pages)
+```
+
+```{r echo = FALSE}
+recos <- jsonlite::read_json("cdc_recos.json", simplifyVector = TRUE)
+```
+
+```{r}
+head(recos)
+```
+
+We're almost there but some data wrangling is still necessary to go from the list format to a nice `data.frame`:
+
+```{r}
+cdc_recommendations <- recos |> 
+  purrr::list_transpose() |> 
+  dplyr::bind_rows() |> 
+  tidyr::pivot_longer(tidyselect::everything(), names_to = "country") |> 
+  tidyr::drop_na() |> 
+  tidyr::pivot_wider(names_from = "value") |> 
+  dplyr::mutate(across(-country, ~ !is.na(.x)))
+
+head(cdc_recommendations)
+```
+
+::: aside
+Using `tidyr::pivot_longer()` and then `tidyr::pivot_wider()` is a neat trick you can often use when trying to create a boolean matrix, such as a species/site occurrence matrix, or our vaccine/country matrix here.
+:::
+
+### Challenges of web scraping
+
+In the previous section, I directly added the relevant XPath to extract the relevant piece of information but this can sometimes be challenging.
+
+Here are some specific issues I encountered while trying to scrape data from Institut Pasteur instead of the CDC:
+
+-   In HTML, the different section headers are not nested. Or in other words, sections are not delimited by opening and closing markers, but by the implicit "current section until a header of the same level appear". For example, I wanted to extract the subsection "Systématiquement" (= "Always") under the "Vaccinations recommandées" (= "Recommended vaccines"), but couldn't find an easy way to do it.
+-   Scraping is notoriously sensible to changes in the page structure or phrasing. For example, if you extract a section by its name and the name has a slightly change, the code will stop working. Alternatively, if you extract the section by position and another section is added before, the code will stop working. As opposed to an API, since the page was not designed to be read by a machine, the developers will usually not do any specific efforts to keep compatibility during updates.
+
+## Data wrangling and plotting
+
+We now want to plot this data with one map per vaccine and two colours indicating whether a certain vaccine is recommended when travelling to a certain country.
+
+We can use [ggplot2](https://ggplot2.tidyverse.org) for this, with the [maps package](https://cran.r-project.org/package=maps) which includes data for polygons of every country.
+
+However, one extra data wrangling challenge lies here: there is a mismatch between the region names used in the map data and on the CDC website due to capitalization, space formatting, or even region definition.
+
+```{r}
+# List of country from maps polygons
+maps::map('world', plot = FALSE)$names |> 
+  strsplit(":", fixed = TRUE) |> 
+  purrr::map_chr(1) |> 
+  unique() |> 
+  sort() |> 
+  head(10)
+
+# List of country from scraped CDC data
+cdc_recommendations$country |> 
+  head(10)
+```
+
+For example, the CDC will often issue specific recommendation for islands than for the mainland part of the same country.
+
+To resolve this issue, we harmonize the names of both data sources with a common list of names provided by the [countrycode package](https://vincentarelbundock.github.io/countrycode/#/). countrycode uses regular expressions to match names in different languages with the official name of the country.
+
+```{r}
+world1 <- sf::st_as_sf(maps::map('world', plot = FALSE, fill = TRUE)) |>
+  dplyr::mutate(
+    ID = countrycode::countrycode(ID, origin = "country.name", destination = "country.name")
+  )
+```
+
+### Final plot {#final-plot}
+
+```{r}
+#| column: screen
+#| fig-width: 10
+#| fig-height: 20
+cdc_recommendations |>
+  dplyr::mutate(
+    ID = countrycode::countrycode(country, origin = "country.name", destination = "country.name"),
+    .keep = "unused"
+  ) |>
+  dplyr::full_join(world1, by = "ID", relationship = "many-to-many") |>
+  tidyr::pivot_longer(-c(ID, geom), names_to = "vax") |>
+  dplyr::mutate(value = ifelse(is.na(value), FALSE, value)) |>
+  ggplot2::ggplot(ggplot2::aes(fill = value, geometry = geom)) +
+  ggplot2::facet_wrap(ggplot2::vars(vax), ncol = 2, shrink = FALSE) +
+  ggplot2::geom_sf() +
+  ggplot2::labs(
+    title = glue::glue("Traveler prevention map"),
+    subtitle = "as per CDC travel guidelines"
+  ) +
+  ggplot2::scale_fill_manual(
+    values = c("TRUE" = "darkgreen", "FALSE" = "grey70"),
+    name = "",
+    labels = c("Not Recommended", "Recommended")
+  ) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = "bottom")
+```
+
+## Next steps
+
+This blog post is now quite long but the work is not fully finished. Here are the steps I will need to take in the future:
+
+-   The travel recommendations are regularly updated. So we would need to re-scrape the data regularly to ensure it is always up-to-date. This is one extra reason why it made sense to scrape politely. But the format of the code here is not well-suite for production and automation. The code will be packaged and regular scraping will be automated via GitHub Actions.
+
+-   During our scraping, we have taken the names of all the vaccines mentioned in a specific country page. But travel recommendations are usually more granular. You will frequently see "for extended stay" or "if staying in a rural setting", or in a specific region of the country. Future versions of this work will take this granularity into account and turn the binary "Recommended" vs "Not Recommended" outcome into something that can take 3 values: "Recommended for all travelers", "Recommended for specific cases", "Not recommended".
