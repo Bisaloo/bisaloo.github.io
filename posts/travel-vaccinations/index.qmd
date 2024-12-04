@@ -3,7 +3,7 @@ title: "Politely mapping recommended travel vaccines"
 author:
   - name: "Hugo Gruson"
     orcid: "0000-0002-4094-1476"
-date: "2024-05-27"
+date: "2024-12-04"
 categories: [R, web scraping, rvest, health]
 execute:
   warning: false
