@@ -122,6 +122,10 @@ recos <- jsonlite::read_json("cdc_recos.json", simplifyVector = TRUE)
 head(recos)
 ```
 
+::: aside
+If you want to data but don't have time to scrape it yourself, I have saved it [as a JSON file (30 KB)](cdc_recos.json) while writing this blog post. Keep in mind it may be slightly outdated when you read this post.
+:::
+
 We're almost there but some data wrangling is still necessary to go from the list format to a nice `data.frame`:
 
 ```{r}
@@ -151,6 +155,7 @@ Here are some specific issues I encountered while trying to scrape data from Ins
 -   In HTML, the different section headings are not nested, while XPath is great at handling nested structure. In other words, sections are not delimited by opening and closing markers, but by the implicit "current section until a header of the same level appear". For example, I wanted to extract the subsection "Systématiquement" (= "Always") under the "Vaccinations recommandées" (= "Recommended vaccines") top-level section, but couldn't find an easy way to do it.
 
 This is what HTML code looks like:
+
 ```html
 <h1>Top-level section</h1>
 <h2>Subsection</h2>
