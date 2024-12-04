@@ -148,8 +148,32 @@ Here are some specific issues I encountered while trying to scrape data from Ins
 
 -   Scraping is notoriously sensible to changes in the page structure or phrasing. For example, if you extract a section by its name and the name has a slightly change, the code will stop working. Alternatively, if you extract the section by position and another section is added before, the code will stop working. As opposed to an API, since the page was not designed to be read by a machine, the developers will usually not do any specific efforts to keep compatibility during updates.
 
--   In HTML, the different section headers are not nested. Or in other words, sections are not delimited by opening and closing markers, but by the implicit "current section until a header of the same level appear". For example, I wanted to extract the subsection "Systématiquement" (= "Always") under the "Vaccinations recommandées" (= "Recommended vaccines"), but couldn't find an easy way to do it.
+-   In HTML, the different section headings are not nested, while XPath is great at handling nested structure. In other words, sections are not delimited by opening and closing markers, but by the implicit "current section until a header of the same level appear". For example, I wanted to extract the subsection "Systématiquement" (= "Always") under the "Vaccinations recommandées" (= "Recommended vaccines") top-level section, but couldn't find an easy way to do it.
 
+This is what HTML code looks like:
+```html
+<h1>Top-level section</h1>
+<h2>Subsection</h2>
+
+<p>lorem ipsum...</p>
+
+<h1>Another top-level section</h1>
+```
+
+But my (incorrect) mental model was considering headings more like `div`s:
+
+```html
+<level1><title>Top-level section</title>
+  <level2><title>Subsection</title>
+
+    <p>lorem ipsum...</p>
+  </level2>
+</level1>
+
+<level1><title>Another top-level section</title>
+  ...
+</level<1
+```
 
 ## Data wrangling and plotting
 
