@@ -1,9 +1,11 @@
 ---
 title: "Blog"
 listing:
-  contents: posts
+  contents:
+    - posts
+    - external_posts.yaml
   sort: "date desc"
-  type: default
+  type: default 
   categories: true
   sort-ui: false
   filter-ui: false

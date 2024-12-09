@@ -38,66 +38,6 @@ bibtex::read.bib(bibfile) %>%
   cat()
 ```
 
-## Invited blog posts and news items
+## Science communication publications
 
--   *Things that can go wrong when using renv* (2024), featured on the 
-    [Epiverse-TRACE blog](https://epiverse-trace.github.io/posts/renv-complications/).
-
-    -   Commented in the [R Weekly Highlights podcast](https://podverse.fm/episode/0sHRnfFvH)
-
--   *System dependencies in R packages and automatic testing* (2023), featured
-    on the [R-hub blog](https://blog.r-hub.io/2023/09/26/system-dependency/)
-
-    -   Commented in the [R Weekly Highlights
-        podcast](https://podverse.fm/clip/k8RPsYA1Ee)
-
--   *From hidden to visisble: how can we recognise research software?* (2023),
-    featured on the [Software Sustainability Institute
-    blog](https://software.ac.uk/blog/2023-08-01-hidden-visible-how-can-we-recognise-research-software)
-
--   *Ensuring & Showcasing the Statistical Correctness of your R Package*
-    (2023), featured on the [Epiverse-TRACE
-    blog](https://epiverse-trace.github.io/posts/statistical-correctness/)
-
-    -   Commented in the [R Weekly Highlights
-        podcast](https://podverse.fm/clip/EkvfvBF6AW)
-
--   *Minimum R version dependency* (2022), featured on the [R-hub
-    blog](https://blog.r-hub.io/2022/09/12/r-dependency/)
-
--   *Opening the door to new contributors in open source projects* (2022),
-    featured on the [Software Sustainability Institute
-    blog](https://www.software.ac.uk/blog/2022-06-22-opening-door-new-contributors-open-source-projects).
-
--   *Why You Should (or Shouldn't) Build an API client?* (2022), featured on
-    [rOpenSci
-    blog](https://ropensci.org/blog/2022/06/16/publicize-api-client-yes-no/).
-
-    -   Commented in the [R Weekly Highlights
-        podcast](https://share.fireside.fm/episode/87RSVeFz+4qaUu8e0?t=538)
-
--   *Dealing with flaky GitHub Actions* (2022), featured on [EpiForecasts
-    blog](https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html).
-
--   *Checking the Inputs of your R Functions* (2022), featured on [R-hub
-    blog](https://blog.r-hub.io/2022/03/10/input-checking/).
-
--   *Covidpreprints.com: Automating Website Updates with the europepmc and
-    rAltmetric Packages* (2020), featured on [rOpenSci
-    blog](https://ropensci.org/blog/2020/10/13/covidpreprints/) [preLights
-    blog](https://prelights.biologists.com/news/covidpreprints-com-automating-website-updates-with-the-europepmc-and-raltmetric-packages/).
-
--   *Community Captioning of rOpenSci Community Calls* (2020), featured on
-    [rOpenSci blog](https://ropensci.org/blog/2020/07/15/subtitles/).
-
--   *Access Publisher Copyright & Self-Archiving Policies via the 'SHERPA/RoMEO'
-    API* (2019), featured on [rOpenSci
-    blog](https://ropensci.org/blog/2019/06/04/rromeo/).
-
--   *When Standards Go Wild - Software Review for a Manuscript* (2019), featured
-    on [rOpenSci blog](https://ropensci.org/blog/2019/04/18/wild-standards/) and
-    [Methods in Ecology and Evolution
-    blog](https://methodsblog.com/2019/04/18/ropensci-code-review-guidelines/).
-
--   *Observatoire des oiseaux des jardins : premiers résultats* (2014), in
-    L'Oiseau Mag (trimestrial magazine of BirdLife France).
+-   *Observatoire des oiseaux des jardins : premiers résultats* (2014), in L'Oiseau Mag (trimestrial magazine of BirdLife France).

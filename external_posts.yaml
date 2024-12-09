@@ -1,0 +1,65 @@
+- title: "Things that can go wrong when using renv"
+  author: "Hugo Gruson"
+  date: "2024-01-31"
+  categories: [R, reproducibility, renv]
+  path: https://epiverse-trace.github.io/posts/renv-complications/
+- title: "System dependencies in R packages and automatic testing"
+  author: "Hugo Gruson"
+  date: "2023-09-26"
+  path: "https://blog.r-hub.io/2023/09/26/system-dependency/"
+  categories: [package development, R, R package, continuous integration]
+- title: "From hidden to visible: how can we recognise research software?"
+  author: "Stephan Druskat, Hugo Gruson, Carlos Martinez, João Morado, Deborah Leem"
+  date: "2023-08-01"
+  path: https://software.ac.uk/blog/2023-08-01-hidden-visible-how-can-we-recognise-research-software
+  categories: [research software, recognition, open science]
+- title: "Ensuring & Showcasing the Statistical Correctness of your R Package"
+  path: https://epiverse-trace.github.io/posts/statistical-correctness/
+  author: "Hugo Gruson"
+  date: "2023-02-13"
+  categories: [R, code quality, testing, continuous integration]
+- title: "Minimum R version dependency"
+  path: https://blog.r-hub.io/2022/09/12/r-dependency/
+  author: "Hugo Gruson, Maëlle Salmon"
+  date: "2022-09-12"
+  categories: [package development, R, R package]
+- title: "Opening the door to new contributors in open source projects"
+  path: https://www.software.ac.uk/blog/2022-06-22-opening-door-new-contributors-open-source-projects
+  author: "Hugo Gruson, Heather Turner"
+  date: "2022-06-22"
+  categories: [open source, community, contribution]
+- title: "Why You Should (or Shouldn't) Build an API Client?"
+  path: https://ropensci.org/blog/2022/06/16/publicize-api-client-yes-no/
+  date: "2022-06-16"
+  author: "Maëlle Salmon, Matthias Grenié, Hugo Gruson"
+  categories: [API, R, package development]
+- title: "Dealing with flaky GitHub Actions"
+  path: https://epiforecasts.io/posts/2022-04-11-robust-actions/robust-actions.html
+  date: "2022-04-11"
+  author: "Hugo Gruson"
+  categories: [GitHub Actions, continuous integration, R, automation]
+- title: "Checking the Inputs of your R Functions"
+  author: "Hugo Gruson, Sam Abbott, Carl Pearson"
+  date: "2022-03-10"
+  path: https://blog.r-hub.io/2022/03/10/input-checking/
+  categories: [R, package development, input validation]
+- title: "Covidpreprints.com: Automating Website Updates with the europepmc and rAltmetric Packages"
+  author: "Zhang-He Goh, Jonny Coates, Hugo Gruson"
+  date: "2020-10-13"
+  path: https://ropensci.org/blog/2020/10/13/covidpreprints/
+  categories: [R, automation, COVID-19, data aggregation]
+- title: "Community Captioning of rOpenSci Community Calls"
+  author: "Matthias Grenié, Hugo Gruson"
+  date: "2020-07-15"
+  path: https://ropensci.org/blog/2020/07/15/subtitles/
+  categories: [community, accessibility]
+- title: "Access Publisher Copyright & Self-Archiving Policies via the 'SHERPA/RoMEO' API"
+  author: "Matthias Grenié, Hugo Gruson"
+  date: "2019-06-04"
+  path: https://ropensci.org/blog/2019/06/04/rromeo/
+  categories: [R, open access, API]
+- title: "When Standards Go Wild - Software Review for a Manuscript"
+  author: "Stefanie Butland, Nick Golding, Chris Grieves, Hugo Gruson, Thomas White, Hao Ye"
+  date: "2019-04-18"
+  path: https://ropensci.org/blog/2019/04/18/wild-standards/
+  categories: [R, software review, open science]
