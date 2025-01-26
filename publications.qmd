@@ -11,30 +11,19 @@ knitr::opts_chunk$set(echo = FALSE)
 *(last automatic update: `r Sys.Date()`)*
 
 ```{r}
-library(magrittr)
-
-bibfile <- tempfile(fileext = ".bib")
-
-httr2::request("https://api.archives-ouvertes.fr/search/?q=authIdHal_s:hugo-gruson&wt=bibtex") %>%
-  httr2::req_perform() %>%
-  httr2::resp_body_string() %>%
-  write(bibfile)
+httr2::request("https://api.archives-ouvertes.fr/search/?q=authIdHal_s:hugo-gruson&wt=bibtex") |> 
+  httr2::req_perform() |> 
+  httr2::resp_body_string() |> 
+  write("my_papers.bib")
 ```
 
 ```{r, results='asis'}
-b <- tools::bibstyle(
-  "by_year", 
-  fmtPrefix = function(paper) "-", 
-  .init = TRUE, 
-  sortKeys = function(refs) rank(purrr::map_chr(unclass(refs), "year"))
-)
-
-bibtex::read.bib(bibfile) %>%
-  purrr::keep(~ identical(attr(unclass(.x)[[1]], "bibtype"), "Article")) %>%
-  sort(.bibstyle = "by_year", decreasing = TRUE) %>%
-  purrr::map_chr(format, "html", .bibstyle = "by_year") %>%
-  purrr::map_chr(~ gsub("Gruson H", "**Gruson H**", .x)) %>%
-  paste(collapse = "\n") %>%
+bibtex::read.bib("my_papers.bib") |> 
+  purrr::keep(~ identical(attr(unclass(.x), "bibtype"), "Article")) |> 
+  sort(.bibstyle = "by_year", decreasing = TRUE) |> 
+  vapply(format, style = "html", .bibstyle = "by_year", character(1)) |> 
+  purrr::map_chr(~ gsub("Gruson H", "**Gruson H**", .x)) |> 
+  paste(collapse = "\n") |> 
   cat()
 ```
 
