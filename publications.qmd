@@ -18,6 +18,13 @@ httr2::request("https://api.archives-ouvertes.fr/search/?q=authIdHal_s:hugo-grus
 ```
 
 ```{r, results='asis'}
+b <- tools::bibstyle(
+  "by_year", 
+  fmtPrefix = function(paper) "-", 
+  .init = TRUE, 
+  sortKeys = function(refs) rank(purrr::map_chr(unclass(refs), "year"))
+)
+
 bibtex::read.bib("my_papers.bib") |> 
   purrr::keep(~ identical(attr(unclass(.x), "bibtype"), "Article")) |> 
   sort(.bibstyle = "by_year", decreasing = TRUE) |> 
