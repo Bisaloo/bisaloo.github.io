@@ -41,6 +41,11 @@ the extension. I enjoyed the experience of collaborating to build something
 great together and continued contributing, until I eventually became one of the
 main contributors and then a ruleset maintainer.
 
+During my free time, I also maintain important and understaffed pieces of 
+open-source infrastructure, such as the 
+[Software Carpentries lesson on "Programming with R"](https://swcarpentry.github.io/r-novice-inflammation), 
+or the [CRAN Task View for Epidemiology](https://cran.r-project.org/view=Epidemiology).
+
 You can interact with me here on GitHub or on <a rel="me" href="https://mastodon.social/@grusonh">Mastodon</a>!
 
 #### If I submitted a PR in one of your repository
