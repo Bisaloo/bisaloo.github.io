@@ -24,6 +24,13 @@ helped build:
     of Alpha Functional Diversity Indices
 -   [cransays](https://github.com/r-hub/cransays)\*: Creates an Overview of CRAN
     Incoming Submissions
+-   [authoritative](https://github.com/epiverse-connect/authoritative): Utilities
+    to parse authors fields from DESCRIPTION files and general purpose 
+    functions to deduplicate names in database, beyond the specific case of R 
+    package authors.
+-   [linelist](https://github.com/epiverse-trace/linelist)\*: Provides tools to 
+    help storing and handling line list data, reporting patient-level data for
+    infectious disease outbreaks.
 
 (\* collaborative projects. Please check the full list of authors!)
 
