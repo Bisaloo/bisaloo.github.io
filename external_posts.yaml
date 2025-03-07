@@ -1,7 +1,7 @@
 - title: "The Dynamic Relationship of Forks with their Upstream Repository"
   author: "Hugo Gruson, Stefanie Butland, Ruby Krasnow"
   date: "2025-02-20"
-  path: https://ropensci.org/blog/2025/02/20/forks-upstream-relationship/"
+  path: https://ropensci.org/blog/2025/02/20/forks-upstream-relationship/
   categories: [community, meetings, open science, maintenance, open-source, carpentries, coworking]
 - title: "Improving Ecosystem Interoperability Iteratively via Progressive Enhancement"
   author: "Hugo Gruson"
@@ -24,7 +24,7 @@
 - title: "System dependencies in R packages and automatic testing"
   author: "Hugo Gruson"
   date: "2023-09-26"
-  path: "https://blog.r-hub.io/2023/09/26/system-dependency/"
+  path: https://blog.r-hub.io/2023/09/26/system-dependency/
   categories: [package development, R, R package, continuous integration]
 - title: "From hidden to visible: how can we recognise research software?"
   author: "Stephan Druskat, Hugo Gruson, Carlos Martinez, João Morado, Deborah Leem"
