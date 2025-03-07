@@ -16,6 +16,7 @@
   path: https://epiverse-trace.github.io/posts/parent-class/
   author: "Hugo Gruson"
   date: "2024-06-26"
+  categories: [R, R package, object-oriented programming, S3, interoperability]
 - title: "Things that can go wrong when using renv"
   author: "Hugo Gruson"
   date: "2024-01-31"
