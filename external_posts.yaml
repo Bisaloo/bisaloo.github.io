@@ -1,19 +1,19 @@
 - title: "The Dynamic Relationship of Forks with their Upstream Repository"
   author: "Hugo Gruson, Stefanie Butland, Ruby Krasnow"
   date: "2025-02-20"
-  href: https://ropensci.org/blog/2025/02/20/forks-upstream-relationship/"
+  path: https://ropensci.org/blog/2025/02/20/forks-upstream-relationship/"
   categories: [community, meetings, open science, maintenance, open-source, carpentries, coworking]
 - title: "Improving Ecosystem Interoperability Iteratively via Progressive Enhancement"
   author: "Hugo Gruson"
   date: "2024-07-05"
-  href: https://epiverse-trace.github.io/posts/progressive-enhancement/
+  path: https://epiverse-trace.github.io/posts/progressive-enhancement/
   categories: [R, interoperability, S3, progressive enhancement, ecosystem, lifecycle, object orientation]
 - title: "2024 mpox outbreak: common analytics tasks and available R tools"
-  href: https://epiverse-trace.github.io/posts/mpox-preparedness/
+  path: https://epiverse-trace.github.io/posts/mpox-preparedness/
   author: "James Azam, Hugo Gruson, Adam Kucharski"
   date: "2024-07-04"
 - title: "Choosing the Right Parent for R Object Classes"
-  href: https://epiverse-trace.github.io/posts/parent-class/
+  path: https://epiverse-trace.github.io/posts/parent-class/
   author: "Hugo Gruson"
   date: "2024-06-26"
 - title: "Things that can go wrong when using renv"
