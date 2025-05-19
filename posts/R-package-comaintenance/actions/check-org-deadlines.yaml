@@ -1,0 +1,81 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '42 1 * * *'
+
+name: check-deadlines
+
+jobs:
+  fetch-deadlines:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-renv@v2
+
+      - name: Fetch deadlines for universe packages
+        shell: Rscript {0}
+        run: |
+          org_cran_pkgs <- glue::glue(
+            "https://{org}.r-universe.dev/api/packages/",
+            org = Sys.getenv("GITHUB_REPOSITORY_OWNER")
+            ) |>
+            jsonlite::fromJSON() |>
+            dplyr::filter(
+              `_registered`,
+              `_cranurl`
+            ) |>
+            dplyr::pull(Package)
+
+          crandb <- tools::CRAN_package_db()
+
+          org_pkgs_deadline <- crandb |>
+            dplyr::filter(
+              Package %in% org_cran_pkgs,
+              !is.na(Deadline)
+            )
+
+          issues <- gh::gh(
+            "/repos/{owner_repo}/issues",
+            owner_repo = Sys.getenv("GITHUB_REPOSITORY"),
+            repo = "etdashboard",
+            state = "all"
+          ) |>
+            purrr::map(\(x) x[c("title", "number", "state")]) |>
+            dplyr::bind_rows() |>
+            dplyr::filter(state == "closed")
+
+          org_pkgs_archiveable <- org_pkgs_deadline |>
+            dplyr::inner_join(issues, by = dplyr::join_by(Package == title))
+
+          for (i in seq_len(nrow(org_pkgs_archiveable))) {
+            pkg <- org_pkgs_archiveable$Package[i]
+            deadline <- org_pkgs_archiveable$Deadline[i]
+            issue <- org_pkgs_archiveable$number[i]
+            gh::gh(
+              "PATCH /repos/{owner_repo}/issues/{issue_number}",
+              owner_repo = Sys.getenv("GITHUB_REPOSITORY"),
+              state = "open",
+              issue_number = issue
+            )
+            gh::gh(
+              "POST /repos/{owner_repo}/issues/{issue_number}/comments",
+              owner_repo = Sys.getenv("GITHUB_REPOSITORY"),
+              issue_number = issue,
+              body = glue::glue("Package {pkg} is at risk to be archived by {deadline}.")
+            )
+            # FIXME: do we need a mechanism to close issues?
+          }
+
+

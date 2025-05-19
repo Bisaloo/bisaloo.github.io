@@ -1,0 +1,144 @@
+---
+title: "Tips and tools for co-maintenance of R packages"
+subtitle: "'Rencontres R 2025' lightning talk companion post"
+author:
+  - name: "Hugo Gruson"
+    orcid: "0000-0002-4094-1476"
+date: "2025-05-20"
+categories: [R, R packages, maintenance, open-source software, CRAN, automation, GitHub Actions]
+engine: knitr
+---
+
+::: {.callout-tip}
+
+## TL;DR: Jump straight to the results
+
+I created GitHub Actions workflows that warn all package authors or maintainers when an R package is at risk of archival, rather than just the officially listed maintainer.
+You can find the workflows in the [`actions/` subfolder of this post](https://github.com/Bisaloo/bisaloo.github.io/tree/main/posts/R-package-comaintenance/actions).
+
+:::
+
+Collaborative work can be a great way to improve the resilience of a project.
+But collaborative open-source work can with unique challenges because some open-source projects happen outside of the transactional relationship inherent to bussinesses.
+Hierarchies and processes are thus not as clearly defined as they might be in a company.
+Because this is my own situation, and my main interest, my tips will be more relevant to "smaller" hobby projects and informal collaborations.
+
+Of these open-source projects, R packages come with an extra unique set of challenges for co-maintenance due to the specificities of their ecosystem, and in particular, CRAN requirements.
+
+In this blog post, I will only briefly mention what has worked in terms of communication and organization processes in the open-source projects I have been involved in.
+However, I will not be exhaustive, as this has been treated elsewhere, and because I believe the solutions cannot be detached from the environment in which they are implemented.
+
+This is why I want to spend more time on explaining the unique challenges of co-maintaining R packages, where they come from, and the specific strategies or tools I have developed to address them.
+
+:::  {.callout-note}
+
+## What do I mean by co-maintenance?
+
+By co-maintainers, I mean individuals that all have write access to the source code repository.
+They are not engaged in a hierarchical relationship, and can take independent decisions regarding the project.
+
+A typical example of co-maintainance in the R community is the R language itself, where all of R Core is co-maintaining R source code.
+
+:::
+
+## Generic tips for co-maintaining an open-source project
+
+### Establish a communication channel
+
+Many projects I've been in have been bitten by underestimating the important of choosing a future-proof communication channel.
+
+As many interactions as possible should probably happen in the open. Possibly where the code is hosted if this is possible (e.g., Codeberg, GitLab, GitHub).
+
+But it is likely that not everything can be discussed there.
+Private conversations will likely sometimes be necessary.
+I mention below the case of emails from CRAN that they do not like to see shared in public.
+Another example is the lightr R package I'm maintaining, where we sometimes discuss proprietary documentation that was shared in confidence by spectrometer manufacturers.
+
+I don't think I have found a perfect communication channel for co-maintaining an open-source project yet but:
+
+- email history may be cumbersome to share when onboarding new maintainers, unless a proper mailing list infrastructure is used.
+- you should ideally never be dependent on a private proprietary platform such as slack, which is now locking access to years of archived conversations between maintainers of the pavo R package behind a paywall.
+
+### Make all changes via a Pull Request
+
+A low effort change to your workflow that will reduce the need for dedicated communication is to make all changes via pull requests.
+
+In low-resource or small-scale projects, I do not believe it should always be a hard requirements to review every single pull requests.
+But even changes that do not warrant a review should be done as a pull request so that the other maintainers get a notification that something has happened.
+
+### Bonus: streamline communication and avoir uncertainty
+
+It may be helpful to align expectations with the other maintainers about how you communicate certain requests for actions.
+
+For example, how do I signal that a review is required vs desired? Is every pull request ready to be merged? How to signal work in progress? etc.
+
+A good example of an attempt to explicit these processes to enable collaboration at-scale in a project involving multiple universities across the world are the [Epiverse blueprints](https://epiverse-trace.github.io/blueprints).
+
+## The specific case of co-maintaining an R package
+
+### CRAN requirements and the unique challenges of co-maintaining an R package
+
+R packages with a specific set of constraints, mostly due to CRAN requirements and submission process.
+
+Indeed, the CRAN policy, as defined in the 'Writing R Extensions' online page, state that:
+
+> The mandatory ‘Maintainer’ field should give a single name followed by a valid (RFC 2822) email address in angle brackets. [...] For a CRAN package it should be a person, not a mailing list and not a corporate entity: do ensure that it is valid and will remain valid for the lifetime of the package.
+
+So, even if in practice, you have chosen to share the maintenance of the package on a equal footing, only one person can communicate directly with CRAN.
+
+In particular, only one person will receive the emails about failing checks and archival threats.
+This is particularly difficult because (as of writing this post) CRAN usually gives short deadlines and maintainers usually only have a couple of week to resubmit.
+It's definitely possible that a maintainer is unreachable during this period of time because they are on holidays, or busy with other matters.
+
+In this specific situation, the "official" maintainer, signaled by "`cre`" in the `DESCRIPTION`, is a bottleneck at two moments:
+
+- when sharing the information of archival risk with their co-maintainers [^1]
+
+[^1]: Note that several CRAN & R Core members view communication with package maintainers as private communication and frown upon sharing it verbatim on a public channel.
+
+- when re-submissing to CRAN as they need to manually validate the submission by clicking a link received on their email.
+
+Note that outside these two bottlenecks, the other maintainers can help by providing a fix, testing it on different versions of R, etc. as all of this will be necessary before submitting a new version to CRAN.
+
+### Tools supporting the co-maintenance of R packages
+
+I have developed two GitHub Actions workflows which can alert of watchers from a given GitHub repository that the package is at risk of archival.
+While this does not solve the CRAN submission bottleneck, it resolves the archival risk alert bottleneck.
+In doing so, it allows co-maintainers, or potential external contributors, to jump into action and prepare the release that the listed maintainer can submit as soon as they're back.
+
+#### In a single package
+
+The following action placed in the repository of an R package will open a new issue each time a new archival deadline is set by the CRAN:
+
+```{embed file = "actions/check-pkg-deadline.yaml"}
+```
+
+A variant where the same issue is re-opened each time is possible.
+You can take inspiration from the ['open issue' job in the `render-dashboard.yaml` workflow from cransays](https://github.com/r-hub/cransays/blob/ef0efd7e76b49539ea95073be6bcc3de98bbc550/.github/workflows/render-dashboard.yml#L89-L98), although it doesn't apply directly to R packages and archival deadlines.
+
+#### In a universe of packages
+
+I have also developed a centralized system for a universe of packages, as part of my work on [Epiverse-TRACE](https://github.com/epiverse-trace/etdashboard). This system handles all the packages listed in the R-universe of the organization where it is added.
+
+This system has two facets:
+
+- a daily updated dashboard, which allows checking all packages' status with a quick glance
+- an archival risk alert system, where each package archival risk is tracked in a given issue that co-maintainers can subscribed to
+
+::: {layout-ncol=2}
+
+![](imgs/epiverse-trace%20CRAN%20checks.png){width=45%}
+
+![](imgs/epiverse-trace_etdashboard_issue.png){width=45%}
+
+:::
+
+```{embed file = "actions/check-org-deadlines.yaml"}
+```
+
+### Future changes in CRAN policy
+
+At UseR2024! in Salzburg, Kurt Hornik mentioned in his keynote presentation that CRAN had been looking into reaching out to all package authors for archival
+notice by opening an issue on GitHub for packages that document a GitHub repository in `DESCRIPTION` (either in the `URL:` or `BugReports:` field).
+
+However, this was mentioned in passing as something that might happen eventually but no promise was made not any clear timeline established.
