@@ -21,12 +21,12 @@ You can find the workflows in the [`actions/` subfolder of this post](https://gi
 Collaborative work can be a great way to improve the resilience of a project.
 But collaborative open-source work comes with unique challenges because some open-source projects happen outside of the transactional relationship inherent to businesses.
 Because this is my own situation, and my main interest, my tips will be more relevant to "smaller" hobby projects and informal collaborations.
-In these projects, hierarchies and processes are thus not as clearly defined as they might be in a company.
+In these projects, hierarchies and processes are not as clearly defined as they might be in a company.
 
 Of these open-source projects, R packages come with an extra unique set of challenges for co-maintenance due to the specificities of their ecosystem, and in particular, CRAN requirements.
 
 In this blog post, I will only briefly mention what has worked in terms of communication and organization processes in the open-source projects I have been involved in.
-However, I will not be exhaustive, as this has been treated elsewhere, and because I believe the solutions cannot be detached from the environment in which they are implemented.
+However, I will not be exhaustive, as this has been covered elsewhere, and because I believe the solutions cannot be detached from the environment in which they are implemented.
 
 This is why I want to spend more time on explaining the unique challenges of co-maintaining R packages, where they come from, and the specific strategies or tools I have developed to address them.
 
@@ -34,7 +34,7 @@ This is why I want to spend more time on explaining the unique challenges of co-
 
 ## What do I mean by co-maintainers?
 
-By co-maintainers, I mean individuals that all have write access to the source code repository.
+By co-maintainers, I mean individuals who all have write access to the source code repository.
 They are not engaged in a hierarchical relationship, and can take independent decisions regarding the project.
 
 A typical example of co-maintainance in the R community is the R language itself, where all of R Core is co-maintaining R source code.
@@ -52,18 +52,18 @@ As many interactions as possible should probably happen in the open. Possibly wh
 But it is likely that not everything can be discussed there.
 Private conversations will likely sometimes be necessary.
 I mention below the case of emails from CRAN that they do not like to see shared in public.
-Another example is the [lightr R package](https://docs.ropensci.org/lightr) I'm maintaining, where we sometimes discuss proprietary documentation that was shared in confidence by spectrometer manufacturers.
+Another example is the [lightr R package](https://docs.ropensci.org/lightr), which I'm maintaining, where we sometimes discuss proprietary documentation that was shared in confidence by spectrometer manufacturers.
 
 I don't think I have found a perfect communication channel for co-maintaining an open-source project yet but:
 
 - email history may be cumbersome to share when onboarding new maintainers, unless a proper mailing list infrastructure is used.
-- you should ideally never be dependent on a private proprietary platform such as slack, which is now locking access to years of archived conversations between maintainers of the [pavo R package](https://github.com/rmaia/pavo) behind a paywall.
+- you should ideally never be dependent on a private proprietary platform such as Slack, which is now locking access to years of archived conversations between maintainers of the [pavo R package](https://github.com/rmaia/pavo) behind a paywall.
 
 ### Make all changes via a Pull Request
 
 A low effort change to your workflow that will reduce the need for dedicated communication is to make all changes via pull requests.
 
-In low-resource or small-scale projects, I do not believe it should always be a hard requirements to review every single pull requests.
+In low-resource or small-scale projects, I do not believe it should always be a hard requirements to review every single pull request.
 But even changes that do not warrant a review should be done as a pull request so that the other maintainers get a notification that something has happened.
 
 ### Bonus: streamline communication and avoid uncertainty
@@ -72,7 +72,7 @@ It may be helpful to align expectations with the other maintainers about how you
 
 For example, how do I signal that a review is required vs desired? Is every pull request ready to be merged? How to signal work in progress? etc.
 
-A good example of an attempt to explicit these processes to enable collaboration at scale in a project involving multiple universities across the world are the [Epiverse blueprints](https://epiverse-trace.github.io/blueprints).
+A good example of an attempt to make these processes explicit to enable collaboration at scale in a project involving multiple universities across the world are the [Epiverse blueprints](https://epiverse-trace.github.io/blueprints).
 
 ## The specific case of co-maintaining an R package
 
@@ -87,10 +87,10 @@ Indeed, the CRAN policy, as defined in the ['Writing R Extensions' online page](
 So, even if in practice, you have chosen to share the maintenance of the package on a equal footing, only one person can communicate directly with the CRAN maintainers.
 
 In particular, only one person will receive the emails about failing checks and archival threats.
-This is particularly difficult because (as of writing this post) CRAN usually gives short deadlines and maintainers usually only have a couple of week to resubmit.
+This is particularly difficult because (as of writing this post) CRAN usually gives short deadlines and maintainers usually only have a couple of weeks to resubmit.
 It's definitely possible that a maintainer is unreachable during this period of time because they are on holidays, or busy with other matters.
 
-In this specific situation, the "official" maintainer, signaled by "`cre`" in the `DESCRIPTION`, is a bottleneck at two moments:
+In this specific situation, the "official" maintainer, indicated by "`cre`" in the `DESCRIPTION`, is a bottleneck at two moments:
 
 - when sharing the information of archival risk with their co-maintainers [^1]
 
@@ -102,7 +102,7 @@ Note that outside these two bottlenecks, the other maintainers can help by provi
 
 ### Tools supporting the co-maintenance of R packages
 
-I have developed two GitHub Actions workflows which can alert of watchers from a given GitHub repository that the package is at risk of archival.
+I have developed two GitHub Actions workflows which can alert all watchers from a given GitHub repository that the package is at risk of archival.
 While this does not solve the CRAN submission bottleneck, it resolves the archival risk alert bottleneck.
 In doing so, it allows co-maintainers, or potential external contributors, to jump into action and prepare the release that the listed maintainer can submit as soon as they're back.
 
@@ -123,7 +123,7 @@ I have also developed a centralized system for a universe of packages, as part o
 This system has two facets:
 
 - a daily updated dashboard, which allows checking all packages' status with a quick glance
-- an archival risk alert system, where each package archival risk is tracked in a given issue that co-maintainers can subscribed to
+- an archival risk alert system, where each package archival risk is tracked in a given issue that co-maintainers can subscribe to
 
 ::: {layout-ncol=2}
 
@@ -141,4 +141,4 @@ This system has two facets:
 At UseR2024! in Salzburg, Kurt Hornik mentioned in his keynote presentation that CRAN had been looking into reaching out to all package authors for archival
 notice by opening an issue on GitHub for packages that document a GitHub repository in `DESCRIPTION` (either in the `URL:` or `BugReports:` field).
 
-However, this was mentioned in passing as something that might happen eventually but no promise was made not any clear timeline established.
+However, this was mentioned in passing as something that might happen eventually but no promise was made nor any clear timeline established.
