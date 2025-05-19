@@ -19,9 +19,9 @@ You can find the workflows in the [`actions/` subfolder of this post](https://gi
 :::
 
 Collaborative work can be a great way to improve the resilience of a project.
-But collaborative open-source work can with unique challenges because some open-source projects happen outside of the transactional relationship inherent to bussinesses.
-Hierarchies and processes are thus not as clearly defined as they might be in a company.
+But collaborative open-source work comes with unique challenges because some open-source projects happen outside of the transactional relationship inherent to businesses.
 Because this is my own situation, and my main interest, my tips will be more relevant to "smaller" hobby projects and informal collaborations.
+In these projects, hierarchies and processes are thus not as clearly defined as they might be in a company.
 
 Of these open-source projects, R packages come with an extra unique set of challenges for co-maintenance due to the specificities of their ecosystem, and in particular, CRAN requirements.
 
@@ -32,7 +32,7 @@ This is why I want to spend more time on explaining the unique challenges of co-
 
 :::  {.callout-note}
 
-## What do I mean by co-maintenance?
+## What do I mean by co-maintainers?
 
 By co-maintainers, I mean individuals that all have write access to the source code repository.
 They are not engaged in a hierarchical relationship, and can take independent decisions regarding the project.
@@ -45,19 +45,19 @@ A typical example of co-maintainance in the R community is the R language itself
 
 ### Establish a communication channel
 
-Many projects I've been in have been bitten by underestimating the important of choosing a future-proof communication channel.
+Many projects I've been in have later regretted their initial underestimation of the importance of choosing a future-proof communication channel.
 
 As many interactions as possible should probably happen in the open. Possibly where the code is hosted if this is possible (e.g., Codeberg, GitLab, GitHub).
 
 But it is likely that not everything can be discussed there.
 Private conversations will likely sometimes be necessary.
 I mention below the case of emails from CRAN that they do not like to see shared in public.
-Another example is the lightr R package I'm maintaining, where we sometimes discuss proprietary documentation that was shared in confidence by spectrometer manufacturers.
+Another example is the [lightr R package](https://docs.ropensci.org/lightr) I'm maintaining, where we sometimes discuss proprietary documentation that was shared in confidence by spectrometer manufacturers.
 
 I don't think I have found a perfect communication channel for co-maintaining an open-source project yet but:
 
 - email history may be cumbersome to share when onboarding new maintainers, unless a proper mailing list infrastructure is used.
-- you should ideally never be dependent on a private proprietary platform such as slack, which is now locking access to years of archived conversations between maintainers of the pavo R package behind a paywall.
+- you should ideally never be dependent on a private proprietary platform such as slack, which is now locking access to years of archived conversations between maintainers of the [pavo R package](https://github.com/rmaia/pavo) behind a paywall.
 
 ### Make all changes via a Pull Request
 
@@ -66,25 +66,25 @@ A low effort change to your workflow that will reduce the need for dedicated com
 In low-resource or small-scale projects, I do not believe it should always be a hard requirements to review every single pull requests.
 But even changes that do not warrant a review should be done as a pull request so that the other maintainers get a notification that something has happened.
 
-### Bonus: streamline communication and avoir uncertainty
+### Bonus: streamline communication and avoid uncertainty
 
 It may be helpful to align expectations with the other maintainers about how you communicate certain requests for actions.
 
 For example, how do I signal that a review is required vs desired? Is every pull request ready to be merged? How to signal work in progress? etc.
 
-A good example of an attempt to explicit these processes to enable collaboration at-scale in a project involving multiple universities across the world are the [Epiverse blueprints](https://epiverse-trace.github.io/blueprints).
+A good example of an attempt to explicit these processes to enable collaboration at scale in a project involving multiple universities across the world are the [Epiverse blueprints](https://epiverse-trace.github.io/blueprints).
 
 ## The specific case of co-maintaining an R package
 
 ### CRAN requirements and the unique challenges of co-maintaining an R package
 
-R packages with a specific set of constraints, mostly due to CRAN requirements and submission process.
+R packages have an extra specific set of constraints, mostly due to CRAN requirements and submission process.
 
-Indeed, the CRAN policy, as defined in the 'Writing R Extensions' online page, state that:
+Indeed, the CRAN policy, as defined in the ['Writing R Extensions' online page](https://cran.r-project.org/doc/manuals/R-exts.html#The-DESCRIPTION-file-1), state that:
 
 > The mandatory ‘Maintainer’ field should give a single name followed by a valid (RFC 2822) email address in angle brackets. [...] For a CRAN package it should be a person, not a mailing list and not a corporate entity: do ensure that it is valid and will remain valid for the lifetime of the package.
 
-So, even if in practice, you have chosen to share the maintenance of the package on a equal footing, only one person can communicate directly with CRAN.
+So, even if in practice, you have chosen to share the maintenance of the package on a equal footing, only one person can communicate directly with the CRAN maintainers.
 
 In particular, only one person will receive the emails about failing checks and archival threats.
 This is particularly difficult because (as of writing this post) CRAN usually gives short deadlines and maintainers usually only have a couple of week to resubmit.
@@ -108,7 +108,7 @@ In doing so, it allows co-maintainers, or potential external contributors, to ju
 
 #### In a single package
 
-The following action placed in the repository of an R package will open a new issue each time a new archival deadline is set by the CRAN:
+The following workflow placed in the repository of an R package will open a new issue each time a new archival deadline is set by the CRAN. It is for example used in the [pavo R package we are co-maintaining with Thomas White](https://github.com/rmaia/pavo/blob/master/.github/workflows/check-cran-deadline.yaml):
 
 ```{embed file = "actions/check-pkg-deadline.yaml"}
 ```
