@@ -2,4 +2,5 @@
 title: "Slides"
 listing:
   contents: slides
+  sort: "date desc"
 ---
