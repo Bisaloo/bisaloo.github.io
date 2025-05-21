@@ -1,0 +1,72 @@
+---
+title: "Outils pour la maintenance partagée de package R"
+author: "Hugo Gruson"
+date: "2025-05-20" # 15:25-15:30
+format:
+  revealjs:
+    logo: imgs/qr-code.svg
+    theme: [default, custom.scss]
+---
+
+## La co-maintenance de projets open-source
+
+- Comment communiquer ?
+  - de manière interne
+  - de manière externe
+- Quel processus de décision pour les choix difficiles ?
+- etc.
+
+## La co-maintenance d'un package R
+
+Les règles du CRAN indiquent que:
+
+> The mandatory ‘Maintainer’ field should give a single name followed by a valid email address in angle brackets.
+> [...] For a CRAN package it should be a person, not a mailing list and not a corporate entity
+
+Les co-mainteneurs qui ne sont pas celui nommé dans le fichier `DESCRIPTION` ne sont pas forcément au courant du risque d'archivage.
+
+## Utilisation des données publiées par le CRAN
+
+:::: {.columns}
+
+::: {.column width="55%"}
+![](imgs/doFuture_cran_checks.png)
+:::
+
+::: {.column width="45%"}
+
+```{r}
+library(magrittr)
+```
+
+```{r, cache = TRUE, echo = TRUE}
+tools::CRAN_package_db() %>%
+  dplyr::filter(
+    !is.na(Deadline)
+  ) %>%
+  dplyr::select(
+    Package, Deadline
+  ) %>%
+  head()
+```
+
+:::
+
+::::
+
+## Solution: pour un package isolé
+
+Automatiquement ouvrir un ticket sur GitHub quand un package est à risque d’être archivé
+
+![](imgs/pavo_workflows_runs.png)
+
+
+## Solution: pour un univers de packages
+
+::: {layout-ncol=2}
+
+![](imgs/epiverse-trace%20CRAN%20checks.png){width=45%}
+
+![](imgs/epiverse-trace_etdashboard_issue.png){width=45%}
+
+:::
