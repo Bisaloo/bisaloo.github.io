@@ -22,6 +22,8 @@ helped build:
     of Alpha Functional Diversity Indices
 -   [cransays](https://github.com/r-hub/cransays)\*: Creates an Overview of CRAN
     Incoming Submissions
+-   [xlcutter](https://github.com/Bisaloo/xlcutter): Parse Batches of xlsx Files
+    Based on a Template
 -   [authoritative](https://github.com/epiverse-connect/authoritative): Utilities
     to parse authors fields from DESCRIPTION files and general purpose 
     functions to deduplicate names in database, beyond the specific case of R 
