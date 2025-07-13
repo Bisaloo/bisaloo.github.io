@@ -2,7 +2,7 @@
 
 I'm Hugo Gruson \[*ygo gʁyzɔ̃*\]. I'm primarily an Evolutionary Biologist but I
 fell in love with R and package development during my PhD. I am now a Research
-Software Engineer in Epidemiology and I can enjoy building tools to facilitate
+Software Engineer in Biology and I can enjoy building tools to facilitate
 research of others.
 
 I'm particularly proud about the following R packages I'm maintaining or I've
