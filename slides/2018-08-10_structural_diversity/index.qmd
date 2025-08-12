@@ -1,0 +1,12 @@
+---
+title: "Unsuspected structural diversity in multilayers producing iridescent colours in hummingbirds"
+author: ["Hugo Gruson", "Marianne Elias", "Christine Andraud", "Claire Doutrelant", "Doris Gomez"]
+date: "2018-08-10"
+categories: [presentation, slides, hummingbirds, iridescence, evolution]
+---
+
+## Presentation
+
+```{=html}
+<iframe width="780" height="500" src="diapo_evo.pdf" title="Unsuspected structural diversity in multilayers producing iridescent colours in hummingbirds"></iframe>
+```
