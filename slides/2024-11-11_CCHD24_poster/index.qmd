@@ -5,6 +5,17 @@ date: "2024-11-11"
 categories: [poster, conference]
 ---
 
+Presentation at the 2024 Carpentry Connect - BioNT Conference in Heidelberg, Germany.
+
+## Abstract
+
+
+The Carpentries workbench is a set of R packages that provides the infrastructure for all Carpentries lesson materials since 2023. It can be considered as a free, open-source and fully reusable Learning Management System (LMS). The code is available on GitHub under an MIT license and the hosting and automation setup are provided transparently as configuration as code, and for free via GitHub Pages and GitHub Actions. This makes the workbench a prime candidate for any external community that wishes to use a well-tested, free and replicable LMS. In this dashboard, I investigate the use of the workbench in external communities, beyond the Carpentries. This dashboard thus targets multiple audiences and serves multiple purposes:
+
+- Strengthen the case for the further funding of the workbench as a critical piece of technical infrastructure, not just for the Carpentries, but also for adjacent external communities
+- Potentially inform the future development of the workbench by highlighting our struggles as an external community adopting this framework, and by analyzing forks of the workbench packages
+- Demonstrate to external communities the steps they can follow to use the workbench for their own training materials, including how to define and implement a custom theme.
+
 ## Poster
 
 ```{=html}

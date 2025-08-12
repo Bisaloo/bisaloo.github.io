@@ -7,6 +7,9 @@ categories: [presentation, slides, hummingbirds, iridescence, evolution]
 
 ## Presentation
 
+Presentation at the 2018 Evolution conference in Montpellier, France, in the
+"Open" session.
+
 ```{=html}
 <iframe width="780" height="500" src="diapo_evo.pdf" title="Unsuspected structural diversity in multilayers producing iridescent colours in hummingbirds"></iframe>
 ```

@@ -7,6 +7,8 @@ categories: [presentation, slides, iridescence, colors]
 
 ## Presentation
 
+Presentation at the 2018 Young Natural History Museum conference in Paris, France, in the "Evolution and Ecology" session.
+
 ```{=html}
 <iframe width="780" height="500" src="diapo_YNHM.pdf" title="New insights in the measurement and characterization of iridescent colours"></iframe>
 ```
