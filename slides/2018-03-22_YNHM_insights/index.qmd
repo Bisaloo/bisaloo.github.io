@@ -1,0 +1,12 @@
+---
+title: "New insights in the measurement and characterization of iridescent colours"
+author: ["Hugo Gruson", "Christine Andraud", "Marianne Elias", "Serge Berthier", "Claire Doutrelant", "Doris Gomez"]
+date: "2018-03-22"
+categories: [presentation, slides, iridescence, colors]
+---
+
+## Presentation
+
+```{=html}
+<iframe width="780" height="500" src="diapo_YNHM.pdf" title="New insights in the measurement and characterization of iridescent colours"></iframe>
+```
