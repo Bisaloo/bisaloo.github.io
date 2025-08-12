@@ -1,0 +1,15 @@
+---
+title: |
+  Distribution of iridescent colours in hummingbird communities results from the
+  interplay between selection for camouflage and communication.
+author: ["Hugo Gruson", "Marianne Elias", "Juan L. Parra", "Christine Andraud", "Serge Berthier", "Claire Doutrelant", "Doris Gomez"]
+cite: |
+  Hugo Gruson, Marianne Elias, Juan L. Parra, Christine Andraud, Serge Berthier,
+  Claire Doutrelant & Doris Gomez (2019), bioRχiv, https://doi.org/10.1101/586362
+date: "2019-07-19"
+categories: [poster, conference, hummingbirds, iridescence, evolution, colours]
+---
+
+## Poster
+
+![](poster.svg)
