@@ -1,0 +1,12 @@
+---
+title: "Carpentry Connect - BioNT Conference @ Heidelberg"
+author: "Hugo Gruson"
+date: "2024-11-11"
+categories: [poster, conference]
+---
+
+## Poster
+
+```{=html}
+<iframe width="780" height="500" src="CCHD24_poster.pdf" title="CCHD24 Conference Poster"></iframe>
+```
