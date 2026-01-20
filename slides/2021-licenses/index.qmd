@@ -14,8 +14,7 @@ knitr::opts_chunk$set(
   fig.align = "center",
   out.width = "80%",
   fig.width=5,
-  fig.height=3.5,
-  dev='svglite'
+  fig.height=3.5
 )
 ```
 
@@ -157,7 +156,7 @@ As of `r Sys.Date()`:
 cran_today <- available.packages(contriburl = contrib.url("https://cloud.r-project.org"))
 ```
 
-```{r, dev='svglite', plot = TRUE}
+```{r}
 library(dplyr)
 library(ggplot2)
 cran_today %>%
