@@ -14,7 +14,7 @@ library(magrittr)
 # [R packages](https://cran.r-project.org/web/checks/check_results_hugo.gruson_r_at_normalesup.org.html)
 
 ```{r, results='asis'}
-jsonlite::stream_in(url("https://bisaloo.r-universe.dev/stats/descriptions"), verbose = FALSE) %>%
+jsonlite::read_json("https://bisaloo.r-universe.dev/api/packages", simplifyVector = TRUE) %>%
   dplyr::arrange(Package) %>%
   split(rownames(.)) %>%
   purrr::map(unlist) %>%
