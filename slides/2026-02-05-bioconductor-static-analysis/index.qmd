@@ -1,0 +1,134 @@
+---
+title: "Static Analysis in R and for Bioconductor"
+logo: "EMBL_logo_colour_DIGITAL.png"
+footer: "Hugo Gruson; Bioconductor TAB meeting 02/2026"
+subtitle: "Bioconductor TAB meeting 02/2026"
+author: "Hugo Gruson"
+format: 
+  clean-revealjs:
+    slide-number: true
+---
+
+## Definition
+
+Static code analysis and linting refer to the concept of detecting incorrect, suboptimal or dangerous code patterns **without executing the code**, only by analysing the code syntax tree.
+
+## Rationale
+
+Static analysis:
+
+- may catch bugs early
+- may improve code readability, maintainability, performance
+
+## Benefits over testing
+
+- fast: even for packages doing heavy computations
+- safe: untrusted, potentially unsafe code, doesn't need to be executed
+- robust: non-reproducible code or incomplete code (e.g., missing data) can be analyzed as long as it's valid code. 
+
+## Static analysis frameworks in the R ecosystem
+
+| Tool / framework         | Runs in Bioconductor | Runs in CRAN | Runs in rOpenSci |
+|--------------------------|----------------------|--------------|------------------|
+| R CMD check              | &#x2714;             | &#x2714;     | &#x2714;         |
+| biocCheck                | &#x2714;             | &#x274C;     | &#x274C;         |
+| rchk                     | &#x274C;             | &#x2714;     | &#x274C;         |
+| lintr ( / flir / jarl )  | &#x274C;             | &#x274C;     | (&#x2714; *)     |
+
+*: during initial onboarding only 
+
+## biocCheck
+
+Focused on Bioconductor best practices.
+
+Well-known to this group.
+
+## lintr
+
+Not just style!
+
+. . .
+
+Categories
+
+```{r}
+lintr::available_tags("lintr")
+```
+
+Examples
+
+```{r}
+lintr::lint(
+  text = "length(x == 0)",
+  linters = lintr::length_test_linter()
+)
+```
+
+## lintr vs biocCheck 
+
+## lintr vs biocCheck proposal
+
+- Opportunity: Cross-pollination between biocCheck and lintr
+
+- Proposal: bioconductor category
+
+```{.r}
+lintr::lint_package(linters = lintr::linters_with_tags("bioconductor"))
+```
+
+## R CMD check vs biocCheck
+
+Some shared checks, such as:
+
+```{.r}
+class(x) == "myClass"
+```
+
+Not necessarily an issue(?)
+
+## rchk: static analysis for C code in R packages
+
+`PROTECT()` / `UNPROTECT()` balance and common mistakes in C code interacting with the R C API.
+
+Additional resources:
+
+- [rchk source and documentation](https://github.com/kalibera/rchk)
+- [Blog post: "Common PROTECT Errors", by Tomas Kalibera](https://developer.r-project.org/Blog/public/2019/04/18/common-protect-errors/)
+
+## rchk in CRAN & Bioconductor
+
+- Routinely runs on CRAN packages
+- [Ran on Bioconductor packages in 2017](https://stat.ethz.ch/pipermail/bioc-devel/2017-April/010771.html)
+   - Some packages were not fixed until recently / are not fixed yet
+   - No information about newer releases
+
+ Value for our community:
+
+- Available to individual developers as a Docker image or as a GitHub Action via R-hub
+  - May be hard to set up
+  - Upstream Docker image not compatible with latest Bioconductor releases
+- Bioconductor has a lot of native C code
+
+## Proposal 1: new checks on Bioconductor
+
+| Tool / framework         | Runs in Bioconductor | Runs in CRAN | Runs in rOpenSci |
+|--------------------------|----------------------|--------------|------------------|
+| R CMD check              | &#x2714;             | &#x2714;     | &#x2714;         |
+| biocCheck                | &#x2714;             | &#x274C;     | &#x274C;         |
+| rchk                     | 💡                   | &#x2714;     | &#x274C;         |
+| lintr ( / flir / jarl )  | 💡 (via biocCheck)   | &#x274C;     | (&#x2714; *)     |
+
+New runners for checks could be hosted at EMBL, since:
+
+- proposed checks are entirely independent from BBS
+- we already have a full copy of the sources
+
+## Proposal 2: integration of lintr in biocCheck
+
+Share some code components between biocCheck and lintr:
+
+- reduce maintenance burden
+- increase user base (= more test cases, more feedback)
+- make Bioconductor checks available to the wider R community
+
+## Discussion
