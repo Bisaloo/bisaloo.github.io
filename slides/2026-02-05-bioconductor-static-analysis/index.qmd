@@ -63,13 +63,56 @@ lintr::lint(
   text = "length(x == 0)",
   linters = lintr::length_test_linter()
 )
+lintr::lint(
+  text = "x == NA",
+  linters = lintr::equals_na_linter()
+)
 ```
 
-## lintr vs biocCheck 
+## lintr vs biocCheck {.smaller}
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+| biocCheck check                                      | linter                                |
+|------------------------------------------------------|---------------------------------------|
+| `vapply()` instead of `sapply()`                     | `undesirable_function_linter()`       |
+| `seq_len()` or `seq_along()` instead of `1:length()` | `seq_linter()`                        |
+| `pkg:fun()` instead of `pkg::fun()`                  | No                                    |
+| Download links to GitHub/GitLab/BitBucket            | No                                    |
+| `download.file()` in `onLoad()`                      | No                                    |
+| `paste()` in condition messages                      | `condition_message_linter()`          |
+| `message()` instead of `cat()`/`print()`             | `print_linter()`                      |
+| `<-` instead of `=`                                  | `assignment_linter()`                 |
+| No `.Deprecated`/`.Defunct`/etc.                     | No                                    |
+| `TRUE`/`FALSE` instead of `T`/`F`                    | `T_and_F_symbol_linter()`             |
+| `is()` instead of `class() ==`                       | `class_equals_linter()`               |
+| `sytem2()` instead of `system()`                     | No                                    |
+| No `set.seed()`                                      | No                                    |
+| No direct slot access (`@`)                          | No                                    |
+| No `browser()`                                       | `undesirable_function_linter()`       |
+| No `<<-`                                             | `undesirable_operator_linter()`       |
+| No `Sys.setenv()`                                    | `undesirable_function_linter()`       |
+| No `suppressWarnings()`                              | No                                    |
+
+:::
+
+::: {.column width="30%"}
+
+All missing linters could very easily be implemented!
+
+:::
+
+::::
+
 
 ## lintr vs biocCheck proposal
 
-- Opportunity: Cross-pollination between biocCheck and lintr
+- Opportunity: Cross-pollination between biocCheck and lintr:
+  - reduce maintenance burden
+  - increase user base (= more test cases, more feedback)
+  - make Bioconductor checks available to the wider R community
 
 - Proposal: bioconductor category
 
