@@ -3,6 +3,7 @@ title: "Static Analysis in R and for Bioconductor"
 logo: "EMBL_logo_colour_DIGITAL.png"
 footer: "Hugo Gruson; Bioconductor TAB meeting 02/2026"
 subtitle: "Bioconductor TAB meeting 02/2026"
+date: "2026-02-05"
 author: "Hugo Gruson"
 format: 
   clean-revealjs:
