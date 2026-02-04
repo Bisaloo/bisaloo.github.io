@@ -146,6 +146,22 @@ Additional resources:
    - Some packages were not fixed until recently / are not fixed yet
    - No information about newer releases
 
+Example in a recent submission:
+
+```
+  > library(testthat)
+  > library(redacted)
+  > 
+  > test_check("redacted")
+  Warning: stack imbalance in '::', 79 then 81
+  Warning: stack imbalance in '<-', 77 then 79
+  Warning: stack imbalance in '{', 73 then 75
+  Saving _problems/test-PlotExpression-83.R
+  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 108 ]
+```
+
+## Value of rchk for Bioconductor
+
  Value for our community:
 
 - Available to individual developers as a Docker image or as a GitHub Action via R-hub
