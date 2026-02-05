@@ -58,7 +58,7 @@ lintr::available_tags("lintr")
 
 Examples
 
-```{r}
+```{r, echo = TRUE}
 lintr::lint(
   text = "length(x == 0)",
   linters = lintr::length_test_linter()
