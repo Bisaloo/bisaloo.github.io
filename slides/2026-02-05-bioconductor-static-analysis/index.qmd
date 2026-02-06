@@ -50,13 +50,9 @@ Not just style!
 
 . . .
 
-Categories
-
 ```{r}
 lintr::available_tags("lintr")
 ```
-
-Examples
 
 ```{r, echo = TRUE}
 lintr::lint(
