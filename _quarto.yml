@@ -24,6 +24,8 @@ website:
       - text: "Contact"
         href: contact.qmd
     right:
+      - icon: git
+        href: https://codeberg.org/Bisaloo/bisaloo.codeberg.page
       - icon: github
         href: https://github.com/bisaloo/bisaloo.github.io
 
