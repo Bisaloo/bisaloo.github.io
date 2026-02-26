@@ -1,0 +1,231 @@
+---
+title: "Wrapping vs Native Implementation for Cross-Language Interoperability"
+subtitle: "Case study of the rhdf5 and Rarr Bioconductor packages"
+logo: "../EMBL_logo_colour_DIGITAL.png"
+footer: "Hugo Gruson; Huber Group Lab Meeting 02/2026"
+date: "2026-02-25"
+author: "Hugo Gruson"
+format: 
+  clean-revealjs:
+    slide-number: true
+---
+
+## Intro to formats
+
+- Competing formats to store multi-dimensional arrays (e.g., images, cell-by-gene matrices, etc.) on disk
+- Particularly important for large datasets that don't fit in memory
+- Basis of interoperability between languages (e.g., R, Python, Julia, etc.)
+
+```{mermaid}
+flowchart LR
+    A["Step 1 (Python)"] -->|Pass data as Zarr or HDF5| B["Step 2 (R)"]
+```
+
+## Zarr vs HDF5: technical
+
+Zarr is "cloud-native", and easily parallelizable.
+
+For both Zarr and HDF5, chunks of the file can be accessed.
+
+**BUT** if the file is stored remote, it needs to be downloaded first for HDF5, while Zarr can be fetch only the relevant chunk.
+
+![](figs/hdf5_file.png)
+
+```{r}
+zarr_file <- withr::local_tempfile(fileext = ".zarr")
+Rarr::write_zarr_array(array(1:9, dim = c(3,3)), zarr_file, chunk_dim = c(1, 1), dimension_separator = "/")
+fs::dir_tree(zarr_file)
+```
+
+## Zarr vs HDF5: governance
+
+Zarr is community-driven:
+
+- much younger
+- less normative(?) (at least for now): e.g., sparse arrays
+- relies more on "subformats"(?): OME
+
+## Definitions
+
+- **Wrapping**: using a high-level language (e.g., R) to call functions from an underlying library (e.g., C/C++/Python) that implements the spec.
+- **Vendoring**: including a copy of the underlying library in the package source code, and wrapping it in the high-level language of choice.
+- **Native implementation**: implementing the spec from scratch, without including any third-party code in the package source code.
+
+## rhdf5 overview
+
+![](figs/rhdf5-bioconductor.png)
+![](figs/rhdf5-universe.png)
+
+## Rarr overview
+
+![](figs/Rarr-bioconductor.png)
+![](figs/Rarr-universe.png)
+
+## Vendoring: rhdf5 case
+
+Wrapping and vendoring the HDF5 C library.
+
+![](figs/rhdf5-languages.png)
+
+Lots of C code, but also lots of thin wrappers handling R memory management and R/C data type conversions.
+
+```{.C}
+SEXP _H5Freopen( SEXP _file_id ) {
+  hid_t file_id = STRSXP_2_HID( _file_id );    
+  hid_t hid = H5Freopen( file_id );
+  addHandle(file_id);
+
+  SEXP Rval;
+  PROTECT(Rval = HID_2_STRSXP(hid));
+  UNPROTECT(1);
+  return Rval;
+}
+```
+
+## Native implementation: Rarr case
+
+Native implementation of the Zarr spec in R.
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](figs/Rarr-languages.png)
+:::
+
+::: {.column width="60%"}
+Most prep steps and housekeeping is done in R. Only performance critical steps are in C.
+:::
+
+::::
+
+These steps should eventually also run in parallel or on GPU.
+
+## Aside / caveat
+
+- Zarr specification is still "python-biased" and includes many "numpysms".
+
+  Better since version 3
+
+. . .
+
+- Some compression libraries are bundled in Rarr
+
+## Wrapping vs Native implementation
+
+Shared problems:
+
+- Upgrading to a new version is always very costly
+- Everybody keeps releasing competing / overlapping packages
+
+## Wrapping vs Native implementation
+
+Pros wrapping:
+
+- Faster to get an initial proof of concept.
+
+  No need to start from scratch.
+
+. . .
+
+- Potentially better maintained & optimized underlying library
+
+. . .
+
+- Lower risk of spec misinterpretation or misimplementation
+
+## Mitigations: conformance testing
+
+<https://hugogruson.fr/zarr-conformance-tests/>
+
+<iframe src="https://hugogruson.fr/zarr-conformance-tests/" width="100%" height="400px"></iframe>
+
+## Mitigations: conformance testing
+
+Zarr conformance tests:
+
+- compare consistency across implementations
+- benchmark performance across implementations
+- identify edge cases and spec ambiguities
+- provide a high number of test cases "for free" to new implementations
+
+## Mitigations: continuous benchmarking
+
+![](figs/continuous_benchmarking.png)
+
+## Request for help
+
+Low diversity of test datasets.
+
+Artür discovered a lot of edge cases and missing features when implementing Zarr support in anndataR.
+
+## Vendoring vs Native implementation
+
+Cons vendoring (1/3):
+
+- Clash with CRAN / Bioconductor policies
+
+> ```
+> * checking compiled code ... WARNING
+> Note: information on .o files is not available
+> File ‘/home/biocbuild/bbs-3.22-bioc/R/site-library/rhdf5/libs/rhdf5.so’:
+>   Found ‘__sprintf_chk’, possibly from ‘sprintf’ (C)
+>   Found ‘abort’, possibly from ‘abort’ (C)
+>   Found ‘rand_r’, possibly from ‘rand_r’ (C)
+>   Found ‘stderr’, possibly from ‘stderr’ (C)
+>   Found ‘stdout’, possibly from ‘stdout’ (C)
+> 
+> Compiled code should not call entry points which might terminate R nor
+> write to stdout/stderr instead of to the console, nor use Fortran I/O
+> nor system RNGs nor [v]sprintf. The detected symbols are linked into
+> the code but might come from libraries and not actually be called.
+> ```
+
+
+## Vendoring vs Native implementation
+
+Cons vendoring (2/3):
+
+- Larger library (size & API) than needed
+  - is manually sorting through the files worth it?
+- Patching process:
+  - git patch vs script
+  - applied to vendored version vs applied at build time
+- Underlying library influence wrapper API = less idiomatic API
+
+## Vendoring vs Native implementation
+
+Cons vendoring (3/3):
+
+- Clash with Debian policy
+- Lower control on update timing
+
+![](https://raw.githubusercontent.com/HDFGroup/hdf5/refs/heads/develop/release_docs/img/release-schedule.png)
+
+## Support for older versions: challenges
+
+By vendoring, we can make sure all users have the same version.
+
+vs wrapping a system library:
+
+![](figs/debian-version.png)
+
+## Support for older versions: policy
+
+- We always support reading from older formats
+- Support for writing to older formats is done on a best effort basis
+
+
+## Making updates easier
+
+- Convince libraries to stick more closely to semantic versioning
+
+  Now the case in HDF5 2.0.0!
+
+. . .
+
+- Pay technical debt early: "Frequency Reduces Difficulty"
+
+
+## Conclusion
+
+
