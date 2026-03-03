@@ -31,6 +31,7 @@ website:
 
 format:
   html:
+    html-math-method: mathml
     theme:
       light: flatly
       dark: darkly
