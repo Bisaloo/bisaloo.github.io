@@ -70,4 +70,4 @@ Below are some things to know if I submitted a PR in a repository:
     PR. Because of this, I strongly recommend you review my changes commit by
     commit. This will be much easier than reviewing all changes at once.
 
-![](src/hollandlake_1024x1024.jpg)
+![](src/hollandlake_1024x1024.jpg){fig-alt="Hugo Gruson crossing a river walking on a fallen tree trunk."}
