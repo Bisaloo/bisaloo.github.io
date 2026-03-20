@@ -2,36 +2,8 @@
 title: "How to choose a license for an academic project"
 author: "Hugo Gruson"
 format: revealjs
-date: "2021"
+date: ""
 ---
-
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(
-  echo = FALSE,
-  message = FALSE,
-  warning = FALSE,
-  fig.align = "center",
-  out.width = "80%",
-  fig.width=5,
-  fig.height=3.5
-)
-```
-
-```{css}
-li, p {
-  font-size: 1.5rem;
-  line-height: 150%;
-}
-.footnote {
-  font-size: 1rem;
-}
-```
-
-```{r}
-library(fontawesome)
-```
-
 
 ## Free/Libre Open Source Software ("FLOSS")
 
@@ -65,21 +37,16 @@ projects.
 
 ### GNU Public License notable examples
 
-```{r}
-fa("fab fa-linux", height = "5em", margin_right = "2em")
-fa("fab fa-git", height = "5em", margin_right = "2em")
-fa("fab fa-r-project", height = "5em")
-```
-
+{{< fa brands linux size=4x >}}
+{{< fa brands git size=4x >}}
+{{< fa brands r-project size=4x >}}
 
 . . .
 
 ### Creative Commons ShareAlike notable examples
 
-```{r, class.source = "logos"}
-fa("fab fa-wikipedia-w", height = "5em", margin_right = "2em")
-fa("fab fa-stack-overflow", height = "5em")
-```
+{{< fa brands wikipedia-w size=4x >}}
+{{< fa brands stack-overflow size=4x >}}
 
 ---
 
@@ -96,33 +63,30 @@ fa("fab fa-stack-overflow", height = "5em")
 
 ### MIT notable examples
 
-```{r, class.source = "logos"}
-fa("fab fa-react", height = "3em", margin_right = "2em")
-fa("fab fa-angular", height = "3em", margin_right = "2em")
-fa("fab fa-rust", height = "3em", margin_right = "2em")
-```
+{{< fa brands react size=2x >}}
+{{< fa brands angular size=2x >}}
+{{< fa brands rust size=2x >}}
 
 ### BSD(-like) notable examples
 
-```{r, class.source = "logos"}
-fa("fab fa-python", height = "3em", margin_right = "2em")
-```
-
+{{< fa brands python size=2x >}}
 numpy, pandas, scipy, pytorch
 
 ### Apache notable examples
 
-```{r, class.source = "logos"}
-fa("fab fa-android", height = "3em")
-```
+{{< fa brands android size=2x >}}
 
 ---
 
-## Other notable cases
+## Other notable cases {.smaller}
 
 Intermediary copyleft:
 
 - MPL: only redistribute parts under copyleft, not the whole codebase.
+
+Relicensing clause:
+
+- Artistic 2.0: the copyleft project can adopt another copyleft license.
 
 . . .
 
@@ -140,15 +104,11 @@ Non-free licenses:
 
 ## A resource to help you choose
 
-```{r}
-knitr::include_app("https://choosealicense.com")
-```
-
-.footnote[<https://choosealicense.com/>]
+[https://choosealicense.com](https://choosealicense.com){preview-link="true"}
 
 ---
 
-## Licenses in the R package ecosystem
+## Licenses in CRAN
 
 As of `r Sys.Date()`:
 
@@ -156,7 +116,7 @@ As of `r Sys.Date()`:
 cran_today <- available.packages(contriburl = contrib.url("https://cloud.r-project.org"))
 ```
 
-```{r}
+```{r, figure = TRUE}
 library(dplyr)
 library(ggplot2)
 cran_today %>%
@@ -185,27 +145,47 @@ cran_today %>%
   count(simple_license) %>%
   ggplot(aes(y = reorder(simple_license, n), x = n)) +
     geom_histogram(stat = "identity") +
-    labs(y = "Licence family", x = "Number of packages on CRAN") +
+    labs(y = "Licence family", x = "Number of packages") +
     theme_minimal()
 ```
----
 
-## License of most downloaded CRAN packages
+## Licenses in Bioconductor
 
-During the last month:
+As of `r Sys.Date()`:
+
+```{r, cache = TRUE, cache.extra = Sys.Date()}
+bioc_today <- available.packages(contriburl = contrib.url("https://bioconductor.org/packages/release/bioc"))
+```
 
 ```{r}
-rlib_pkgs <- c("vctrs", "rlang", "lifecycle", "ellipsis", "pillar", 
-               "textshaping", "cli", "ragg", "glue", "cpp11", "pkgdown", 
-               "crayon")
-tidyverse_pkgs <- c("ggplot2", "dplyr", "tibble", "magrittr")
-jeroen_pkgs <- c("jsonlite")
-sf_pkgs <- c("sf")
-yihui_pkgs <- c("xfun")
-
-cranlogs::cran_top_downloads(when = "last-month", 20) %>%
-  ggplot(aes(x = count, y = reorder(package, -rank))) +
-  geom_histogram(stat = "identity") +
-  theme_minimal() +
-  labs(y = "Package", x = "Number of downloads")
+library(dplyr)
+library(ggplot2)
+bioc_today %>%
+  as.data.frame() %>%
+  mutate(simple_license = case_when(
+    grepl("^AGPL", License) ~ "AGPL",
+    grepl("^GNU Affero", License) ~ "AGPL",
+    grepl("^GPL", License) ~ "GPL",
+    grepl("^GNU General Public License", License) ~ "GPL",
+    grepl("^LGPL", License) ~ "LGPL",
+    grepl("^Lesser G[nN][uU]", License) ~ "LGPL",
+    grepl("GNU Lesser", License) ~ "LGPL",
+    grepl("^MIT", License) ~ "MIT",
+    grepl("^MPL", License) ~ "MPL",
+    grepl("^Mozilla", License) ~ "MPL",
+    grepl("^Apache License", License) ~ "Apache",
+    grepl("^BSD(_| )2", License) ~ "BSD 2-clause",
+    grepl("^BSD(_| )3", License) ~ "BSD 3-clause",
+    grepl("^Artistic", License) ~ "Artistic",
+    grepl("^CC0", License) ~ "Public domain",
+    grepl("Unlimited", License) ~ "Public domain",
+    grepl("^CC", License) ~ "Creative Commons",
+    grepl("^Creative Commons", License) ~ "Creative Commons",
+    TRUE ~ "Other"
+  )) %>%
+  count(simple_license) %>%
+  ggplot(aes(y = reorder(simple_license, n), x = n)) +
+    geom_histogram(stat = "identity") +
+    labs(y = "Licence family", x = "Number of packages") +
+    theme_minimal()
 ```
