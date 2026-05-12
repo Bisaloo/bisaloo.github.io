@@ -1,0 +1,184 @@
+---
+title: "Compare S4 standardGeneric() special case to non-special case"
+draft: true
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+S4 style guides usually recommend not adding braces around `standardGeneric()` function bodies.
+For examples, the ['S4' chapter of 'Advanced R'](https://adv-r.hadley.nz/s4.html#s4-generics) states:
+
+> It is bad practice to use {} in the generic as it triggers a special case that is more expensive, and generally best avoided.
+>
+> ```r
+> # Don't do this!
+> setGeneric("myGeneric", function(x) {
+>   standardGeneric("myGeneric")
+> })
+> ```
+
+This is a common source of confusion for novice S4 users, and for tools analyzing or modifying R code formatting (https://github.com/posit-dev/air/issues/398, https://github.com/r-lib/lintr/issues/1968, https://github.com/hadley/adv-r/issues/1804)
+Indeed, it is unusual in R to have formatting choices result in different behaviours.
+Furthermore, the exact consequence of the special case seem to have been lost in time and remains unknown to many R users, including experienced S4 developers.
+It is unclear if the recommendation is still necessary today, or if we are just following a historical convention.
+
+This blog post explores where this special case arises from, and what its measurable consequences (if any) are.
+
+## Special case definition
+
+The source of the special case was pointed out to me by Lionel Henry on the Air bug tracker. [In the methods package, there is an extra check that will compare the body of our defined generic to a known pattern for `standardGeneric()` calls without braces](https://github.com/r-devel/r-svn/blob/097aac926efd9beed35fec21b4f2be14ad8453b4/src/library/methods/R/RMethodUtils.R#L1227-L1235).
+
+> ```r
+> .NonstandardGenericTest <- function(body, fname, stdBody)
+> {
+>     if(identical(body, stdBody))
+>         FALSE
+>     else if(.recursiveCallTest(body, fname))
+>         TRUE
+>     else
+>         NA
+> }
+> ```
+
+As far as I can tell, the initial version of this "nonStandardGenericFunction" was introduced in [revision 20995](https://github.com/r-devel/r-svn/commit/62c60532209aca868d5ec4560abcb49e53004f9d).
+
+## Special case consequences
+
+To see the consequences of triggering the special case or not, let's define two generics, which do the same thing, but one triggers the special case and the other does not:
+
+```{r}
+# This triggers the \pkg{methods} special case
+setGeneric("myStandardGeneric", function(x) standardGeneric("myStandardGeneric"))
+
+# This doesn't trigger the \pkg{methods} special case because of the braces
+setGeneric("myCustomGeneric", function(x) {
+  standardGeneric("myCustomGeneric")
+})
+```
+
+And then let's define a simple method for both generics:
+
+```{r}
+setOldClass("rle")
+
+setMethod("myStandardGeneric", "rle", function(x) {
+  x$values * x$lengths / sum(x$lengths)
+})
+
+setMethod("myCustomGeneric", "rle", function(x) {
+  x$values * x$lengths / sum(x$lengths)
+})
+```
+
+### Performance
+
+[What the methods package documentation seems to be suggesting](https://github.com/r-devel/r-svn/blob/56b976ae0de9cec972c8a90a8d301a9866094869/src/library/methods/man/Methods_Details.Rd#L282-L287), and what is often repeated, is that the standard generic shortcut may allow for better performance. We can try it on our simple example:
+
+```{r}
+x <- rpois(1000, lambda = 3) |> rle()
+microbenchmark::microbenchmark(
+  myStandardGeneric(x),
+  myCustomGeneric(x),
+  times = 1e6
+)
+```
+
+This doesn't seem to have any measurable impact on performance.
+
+On the topic of performance, [an email in the R-devel mailing list](https://www.mail-archive.com/r-devel@r-project.org/msg06307.html) says:
+
+> standardGeneric() creates a  new context into which it copies 
+bindings for all the objects in the frame of the generic function call
+
+But my reading of this is that objects created before calling `standardGeneric()` in a non-standard generic that does some initial pre-computation would be copied into the context. It doesn't apply in the simple case of a non-standard generic that just wraps `standardGeneric()` in braces, as it doesn't do any pre-computation.
+
+### Error stack
+
+One GitHub comment mentions "an additional function call". If this the case, even if it doesn't have a measurable impact on performance, it could make the error stack more difficult to understand, and make debugging more difficult.
+
+Let's try to trigger an error in both cases:
+
+```{r, error = TRUE}
+broken_rle <- structure(list(lengths = letters, values = 1:26), class = "rle")
+myStandardGeneric(broken_rle)
+myCustomGeneric(broken_rle)
+```
+
+The error stack appears to be the same in both cases, and it doesn't seem that the special case adds an extra function call.
+
+### Lazy evaluation
+
+[The `setGeneric()` documentation states](https://github.com/r-devel/r-svn/blob/56b976ae0de9cec972c8a90a8d301a9866094869/src/library/methods/man/setGeneric.Rd#L67-L70):
+
+> A non-standard signature for the generic function may be
+used to exclude arguments that take advantage of lazy evaluation;
+in particular, if the argument may *not* be evaluated then it
+cannot be part of the signature.
+
+
+
+```{r}
+setGeneric("foo", function(x = 1) standardGeneric("foo"))
+setMethod("foo", signature(x = "missing"), function(x = 3) x)
+
+setGeneric("foo_nonstandard", function(x = 1) { standardGeneric("foo_nonstandard") })
+setMethod("foo_nonstandard", signature(x = "missing"), function(x = 13) x)
+
+foo()
+foo_nonstandard()
+```
+
+### Generic collision across packages
+
+(Double check. But might a mechanism to avoid generic collision across packages be the original motivation for this special case? ?setGeneric() talks a bit about this in the "Specialized Local Generics" section.)
+
+### Other issues
+
+There might be other consequences of triggering the special case that I did not identify.
+Some active Bioconductor package developers could not recall precisely **why** one should try to target the special case.
+
+I did a [search on the Bioconductor mailing list](https://www.mail-archive.com/search?l=bioc-devel%40r-project.org&q=standardGeneric&start=100) and on the [Bioconductor slack/zulip] with the text "standardGeneric" and could not find any relevant threads.
+
+## Summary
+
+
+
+## Recommendations
+
+### Advanced R book
+
+It would be helpful to explain exactly **why** one should try to trigger the special case.
+If this is not appropriate for the main text, perhaps an aside or footnote could be added.
+
+The current phrasing ("more expensive") leads to believe the main issue is degraded performance, when this blog post seems to point in another direction.
+
+### methods package
+
+Upon exploring this issue, it appeared that non standard generics were originally meant to identify cases where some pre-computation is done in the generic rather than the methods, [which is discouraged](https://www.mail-archive.com/r-devel@r-project.org/msg06307.html):
+
+> Maybe more relevant, if this question is motivated by a practical need, 
+you may want to rethink what the generic function does.  "Nonstandard" 
+generic functions are called that  for a reason.  The concept behind 
+methods in S is that a generic function defines the _function_ or 
+purpose of the computation, but it's only the methods that define how 
+the purpose is carried out.
+> 
+> Using a nonstandard generic that does some extra computation always 
+blurs the concept, and often makes methods harder to write or 
+understand. 
+
+But braced `standardGeneric()` calls do not actually perform any pre-computation, and it seems that it is purely a technical and historical quirk that they are treated as non-standard generics.
+
+It would be helpful if braced `standardGeneric()` calls could be identified as standard generics.
+
+There are several ways this could be achieved:
+
+- By unbracing the generic body before the check in `.NonstandardGenericTest()`
+- By comparing the body to both the braced and unbraced versions of the `standardGeneric()` call
+- 
