@@ -49,8 +49,8 @@ spatial_bioc_pkgs |>
 
 ```{r}
 spatial_bioc_pkgs |> 
-  pull(Package) |>
-  purrr::map(function(pkg) {
+  pull(package) |>
+  map(function(pkg) {
     BiocPkgTools::pkgDownloadStats(pkg, years = 2019:2026) |> 
       mutate(Package = pkg)
   }) |>
@@ -104,7 +104,7 @@ get_doi <- function(pkg) {
   citation_file <- withr::local_tempfile()
   url <- tryCatch(
     gh::gh("/repos/{owner}/{repo}/contents/{path}", owner = "bioc", repo = pkg, path = "inst/CITATION") |>
-      purrr::pluck("download_url"),
+      pluck("download_url"),
     error = function(e) NULL
   )
   if (is.null(url)) {
@@ -120,7 +120,7 @@ get_doi <- function(pkg) {
 
 ```{r}
 spatial_bioc_pkgs <- spatial_bioc_pkgs |> 
-  mutate(dois = map(Package, get_doi) ) |>
+  mutate(dois = map(package, get_doi) ) |>
   unnest_longer(dois)
 ```
 
