@@ -1,0 +1,158 @@
+---
+title: "Some data on Spatial Biology support in Bioconductor"
+author:
+  - name: "Hugo Gruson"
+    orcid: "0000-0002-4094-1476"
+date: "2026-07-14"
+categories: [R, interoperability, spatial biology, Bioconductor]
+---
+
+Bioconductor since its inception has played an important role in the analysis of molecular biology data (microarrays, bulk sequencing, single cell sequencing, etc.).
+In the recent years, [spatial biology](https://en.wikipedia.org/wiki/Spatial_biology) has been growing tremendously and there is a proportional demand for new packages to deal with this new data class.
+
+While there are clear data points showing that this support is being added to Bioconductor, such as the publication of the [OSTA book](https://bioconductor.org/books/release/OSTA/), I was curious to look at quantitative larger scale data on more indicators.
+This blog post will collect and plot data about the ['Spatial' biocView](https://bioconductor.org/packages//release/BiocViews.html#___Spatial) in an easily digested format, but will not try to guide the reader in the interpretation of these numbers. 
+
+```{r}
+library(tidyverse)
+```
+
+## Number of packages in the 'Spatial' biocView
+
+```{r}
+spatial_bioc_pkgs <- jsonlite::fromJSON("https://bioc.r-universe.dev/api/packages") |> 
+  filter(map_lgl(`_topics`, ~ "spatial" %in% .x))
+```
+
+```{r}
+spatial_bioc_pkgs <- spatial_bioc_pkgs |> 
+  pull(Package) |> 
+  BiocPkgTools::getPkgYearsInBioc() |> 
+  left_join(spatial_bioc_pkgs, by = c("package" = "Package")) |>
+  mutate(first_version_available = as.factor(package_version(first_version_available)))
+
+spatial_bioc_pkgs |>
+  count(first_version_available) |>
+  arrange(first_version_available) |> 
+  mutate(n = cumsum(n)) |>
+  ggplot(aes(x = first_version_available, y = n)) +
+    geom_col() +
+    theme_minimal() +
+    labs(
+      x = "Year of first availability in Bioconductor", 
+      y = "Number of packages in the 'Spatial' biocView",
+      caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
+    )
+```
+
+## Total number of downloads for packages in the 'Spatial' biocView
+
+```{r}
+spatial_bioc_pkgs |> 
+  pull(Package) |>
+  purrr::map(function(pkg) {
+    BiocPkgTools::pkgDownloadStats(pkg, years = 2019:2026) |> 
+      mutate(Package = pkg)
+  }) |>
+  bind_rows() |> 
+  group_by(Package, Year) |>
+  summarise(Nb_of_downloads = sum(Nb_of_downloads), .groups = "drop") |>
+  mutate(
+    Package = fct_reorder(Package, Nb_of_downloads),
+    Package = fct_lump_n(Package, n = 10, other_level = "Other")
+  ) |>
+  ggplot(aes(x = Year, y = Nb_of_downloads, fill = Package)) +
+    geom_col() +
+    theme_minimal() +
+    labs(
+      x = "Year", 
+      y = "Total number of downloads",
+      caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
+    ) +
+    theme(legend.position = "none")
+```
+
+## Number of package authors in the 'Spatial' biocView
+
+Because there can be variations in how author names are reported, we will use the [`authoritative`](https://cran.r-project.org/package=authoritative) package to deduplicate names.
+
+```{r}
+library(authoritative)
+spatial_bioc_pkgs |> 
+  mutate(Authors = map(`Authors@R`, parse_authors_r)) |>
+  mutate(Authors = map(Authors, function(x) format(x, include = c("given", "family")))) |>
+  unnest_longer(Authors) |>
+  mutate(Authors = invert_names(Authors, Authors)) |>
+  mutate(Authors = expand_names(Authors, Authors)) |>
+  filter(!duplicated(Authors)) |>
+  group_by(first_version_available) |>
+  summarise(n = n_distinct(Authors), .groups = "drop") |>
+  ggplot(aes(x = first_version_available, y = n)) +
+    geom_col() +
+    theme_minimal() +
+    labs(
+      x = "Year of first availability in Bioconductor", 
+      y = "Number of new package authors in the 'Spatial' biocView",
+      caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
+    )
+```
+
+## Citations over time in the 'Spatial' biocView
+
+```{r}
+get_doi <- function(pkg) {
+  citation_file <- withr::local_tempfile()
+  url <- tryCatch(
+    gh::gh("/repos/{owner}/{repo}/contents/{path}", owner = "bioc", repo = pkg, path = "inst/CITATION") |>
+      purrr::pluck("download_url"),
+    error = function(e) NULL
+  )
+  if (is.null(url)) {
+    return(NULL)
+  }
+  download.file(url, citation_file, quiet = TRUE)
+  citation <- tools:::.parse_CITATION_file(citation_file, encoding = "UTF-8")
+  lapply(citation, function(x) {
+    x$doi
+  }) %||% glue::glue("10.18129/B9.bioc.{pkg}")
+}
+```
+
+```{r}
+spatial_bioc_pkgs <- spatial_bioc_pkgs |> 
+  mutate(dois = map(Package, get_doi) ) |>
+  unnest_longer(dois)
+```
+
+```{r}
+citations <- spatial_bioc_pkgs |> 
+  pull(dois) |>
+  unique() |>
+  openalexR::oa_fetch(doi = _, entity = "works")
+```
+
+```{r}
+citations |> 
+  filter(cited_by_count > 0) |>
+  pull(counts_by_year) |> 
+  bind_rows() |> 
+  group_by(year) |>
+  summarise(cited_by_count = sum(cited_by_count), .groups = "drop") |>
+  ggplot(aes(x = year, y = cited_by_count)) +
+    geom_col() +
+    theme_minimal() +
+    labs(
+      x = "Year of citation", 
+      y = "Number of citations for packages in the 'Spatial' biocView",
+      caption = "Data from 2026 is incomplete (latest data point: 2026-07-13)"
+    )
+```
+
+## Limitations
+
+- Some packages may relate to Spatial Biology but not be in the 'Spatial' biocView, since biocView classification is based on self-reporting by package authors.
+- Some packages related to Spatial Biology are on CRAN (e.g., [`SVG`](https://cran.r-project.org/package=SVG)).
+
+## Future directions
+
+I may be biased but I think more very exciting things are on the horizon. In particular, in Bioconductor 3.24, which will be released in October 2026, there will be a new [`spatialdataR` package](https://github.com/HelenaLC/spatialdataR), which offers interoperability with the [spatialdata](https://spatialdata.scverse.org/) Python package, and the scverse ecosystem, as well as lazy operations on very large spatial datasets.
