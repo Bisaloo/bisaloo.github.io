@@ -8,6 +8,12 @@ format:
     theme: [default, custom.scss]
 ---
 
+```{r, include = FALSE}
+options(
+  repos = c(CRAN = "https://cloud.r-project.org")
+)
+```
+
 ## La co-maintenance de projets open-source
 
 - Comment communiquer ?

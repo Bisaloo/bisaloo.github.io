@@ -7,6 +7,12 @@ date: "2026-07-14"
 categories: [R, interoperability, spatial biology, Bioconductor]
 ---
 
+```{r, include = FALSE}
+options(
+  repos = c(CRAN = "https://cloud.r-project.org")
+)
+```
+
 Bioconductor since its inception has played an important role in the analysis of molecular biology data (microarrays, bulk sequencing, single cell sequencing, etc.).
 In the recent years, [spatial biology](https://en.wikipedia.org/wiki/Spatial_biology) has been growing tremendously and there is a proportional demand for new packages to deal with this new data class.
 
