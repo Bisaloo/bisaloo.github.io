@@ -7,7 +7,12 @@ date: "2026-07-14"
 categories: [R, interoperability, spatial biology, Bioconductor]
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
 options(
   repos = c(CRAN = "https://cloud.r-project.org")
 )
