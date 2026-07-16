@@ -48,13 +48,12 @@ spatial_bioc_pkgs <- spatial_bioc_pkgs |>
 spatial_bioc_pkgs |>
   count(first_version_available) |>
   arrange(first_version_available) |> 
-  mutate(n = cumsum(n)) |>
   ggplot(aes(x = first_version_available, y = n)) +
     geom_col() +
     theme_minimal() +
     labs(
-      x = "Year of first availability in Bioconductor", 
-      y = "Number of packages in the 'Spatial' biocView",
+      x = "Bioconductor version", 
+      y = "Number of new packages in the 'Spatial' biocView",
       caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
     )
 ```
@@ -80,7 +79,7 @@ spatial_bioc_pkgs |>
     theme_minimal() +
     labs(
       x = "Year", 
-      y = "Total number of downloads",
+      y = "Number of downloads / year for packages in the 'Spatial' biocView",
       caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
     ) +
     theme(legend.position = "none")
@@ -105,7 +104,7 @@ spatial_bioc_pkgs |>
     geom_col() +
     theme_minimal() +
     labs(
-      x = "Year of first availability in Bioconductor", 
+      x = "Bioconductor version", 
       y = "Number of new package authors in the 'Spatial' biocView",
       caption = "Data for 2026 is incomplete (latest data point: 2026-07-13)"
     )
@@ -157,7 +156,7 @@ citations |>
     theme_minimal() +
     labs(
       x = "Year of citation", 
-      y = "Number of citations for packages in the 'Spatial' biocView",
+      y = "Number of new citations for packages in the 'Spatial' biocView",
       caption = "Data from 2026 is incomplete (latest data point: 2026-07-13)"
     )
 ```
