@@ -35,13 +35,16 @@ spatial_bioc_pkgs <- jsonlite::fromJSON("https://bioc.r-universe.dev/api/package
   filter(map_lgl(`_topics`, ~ "spatial" %in% .x))
 ```
 
-```{r}
+<!-- hide results because BiocPkgTools uses print() instead of message() -->
+```{r, results = "hide"}
 spatial_bioc_pkgs <- spatial_bioc_pkgs |> 
   pull(Package) |> 
   BiocPkgTools::getPkgYearsInBioc() |> 
   left_join(spatial_bioc_pkgs, by = c("package" = "Package")) |>
   mutate(first_version_available = as.factor(package_version(first_version_available)))
+```
 
+```{r}
 spatial_bioc_pkgs |>
   count(first_version_available) |>
   arrange(first_version_available) |> 
