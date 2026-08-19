@@ -117,46 +117,46 @@ Warning in save(list = ls(envir, all.names = TRUE), file = sub("\\.[Rr]$",  :
 It caught me a bit off guard initially but the solution, as often, was to investigate by [reading the R source code](https://blog.r-hub.io/2019/05/14/read-the-source/). I search for the error message in the https://github.com/r-devel/r-svn repository and found the relevant code in [`src/library/tools/R/build.R`](https://github.com/r-devel/r-svn/blob/b4570e6a3f4093e1e11e4e6ad0fb92bde56df4a0/src/library/tools/R/build.R#L834-L851):
 
 ```{.r}
-    resave_data_others <- function(pkgname, resave_data)
-    {
-        if (resave_data == "no") return()
-        if(!dir.exists(ddir <- file.path(pkgname, "data")))
-            return()
-        ddir <- normalizePath(ddir)
-        dataFiles <- filtergrep("\\.(rda|RData)$",
-                                list_files_with_type(ddir, "data"))
-        if (!length(dataFiles)) return()
-        resaved <- character()
-        on.exit(unlink(resaved))
-        Rs <- grep("\\.[Rr]$", dataFiles, value = TRUE)
-        if (length(Rs)) { # these might use .txt etc
-            messageLog(Log, "re-saving .R files as .rda")
-            ## ensure utils is visible
-            ##   library("utils")
-            lapply(Rs, function(x){
-                envir <- new.env(hash = TRUE)
-                sys.source(x, chdir = TRUE, envir = envir)
-                ## version = 2L for maximal back-compatibility
-                save(list = ls(envir, all.names = TRUE),
-                     file = sub("\\.[Rr]$", ".rda", x),
-                     compress = TRUE, compression_level = 9,
-                     envir = envir,
-                     version = 2L)
-                resaved <<- c(resaved, x)
-            })
-            printLog(Log,
-                     "  NB: *.R converted to .rda: other files may need to be removed\n")
-        }
+resave_data_others <- function(pkgname, resave_data)
+{
+    if (resave_data == "no") return()
+    if(!dir.exists(ddir <- file.path(pkgname, "data")))
+        return()
+    ddir <- normalizePath(ddir)
+    dataFiles <- filtergrep("\\.(rda|RData)$",
+                            list_files_with_type(ddir, "data"))
+    if (!length(dataFiles)) return()
+    resaved <- character()
+    on.exit(unlink(resaved))
+    Rs <- grep("\\.[Rr]$", dataFiles, value = TRUE)
+    if (length(Rs)) { # these might use .txt etc
+        messageLog(Log, "re-saving .R files as .rda")
+        ## ensure utils is visible
+        ##   library("utils")
+        lapply(Rs, function(x){
+            envir <- new.env(hash = TRUE)
+            sys.source(x, chdir = TRUE, envir = envir)
+            ## version = 2L for maximal back-compatibility
+            save(list = ls(envir, all.names = TRUE),
+                 file = sub("\\.[Rr]$", ".rda", x),
+                 compress = TRUE, compression_level = 9,
+                 envir = envir,
+                 version = 2L)
+            resaved <<- c(resaved, x)
+        })
+        printLog(Log,
+                 "  NB: *.R converted to .rda: other files may need to be removed\n")
+    }
 ```
 
 You can see this code path is guarded by the `resave_data` argument. [Further searching for this variable in the same file](https://github.com/r-devel/r-svn/blob/b4570e6a3f4093e1e11e4e6ad0fb92bde56df4a0/src/library/tools/R/build.R#L1174-L1178) shows that it is controlled by the `BuildResaveData` field in the `DESCRIPTION` file of the package:
 
 ```{.r}
-            ## allow per-package override
-            resave_data1 <- parse_description_field(desc, "BuildResaveData",
-                                                    resave_data, logical = FALSE)
-            resave_data_others(pkgname, resave_data1)
-            resave_data_rda(pkgname, resave_data1)
+## allow per-package override
+resave_data1 <- parse_description_field(desc, "BuildResaveData",
+                                        resave_data, logical = FALSE)
+resave_data_others(pkgname, resave_data1)
+resave_data_rda(pkgname, resave_data1)
 ```
 
 Thus, the final step is to add the following line to the `DESCRIPTION` file of the package:
@@ -173,4 +173,4 @@ With these three changes combined:
 - no warning is emitted when loading the package
 - a warning is emitted when the user tries to access the data after loading it with `data("mydata", package = "datadeprecation")`
 
-The entire demonstration is also available as a minimal example package in this GitHub repository: https://github.com/Bisaloo/datadeprecation.
+The entire demonstration is also available as a minimal example package in this GitHub repository: <https://github.com/Bisaloo/datadeprecation>.
