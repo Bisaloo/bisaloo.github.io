@@ -1,0 +1,176 @@
+---
+title: "Deprecation messages for package data"
+author:
+  - name: "Hugo Gruson"
+    orcid: "0000-0002-4094-1476"
+date: "2026-08-19"
+categories: [R, R packages, maintenance, lifecycle]
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+It is good practice and quite common for R packages to provide a deprecation warning or error message when a function is removed or renamed, or when a function argument is removed or renamed.
+
+However, packages do not only ship functions, but also sometimes data. For example:
+
+```{r}
+data("mtcars", package = "datasets")
+```
+
+It is less common to provide a deprecation warning or error message when a dataset is removed or renamed, even though this can be just as disruptive for users of the package.
+
+But creating deprecation messages for package data is not completely straightforward and requires a number of lesser-known / lesser-used features of the R packages that I'm going to explore in this post.
+
+For this, let's focus on the fictional example of removing the data `mydata`, which is a vector containing the letters of the alphabet from a package called `datadeprecation`.
+
+### Data format in R packages
+
+To make data accessible through the `data()` function, packages provide it in the `data/` folder of the package source code.
+
+The most common way to store this data is by saving it in binary format, as `.rda` files.
+
+However, it is also possible to store data in other formats, such as `.txt`, `.csv` or even an `.R` script that creates the data object!
+
+This is documented in the ["Writing R extensions" manual](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages):
+
+> Data files can have one of three types as indicated by their extension: plain R code (.R or .r), tables (.tab, .txt, or .csv, see ?data for the file formats, and note that .csv is not the standard26 CSV format), or save() images (.RData or .rda)
+
+as well as in `?data`:
+
+> - files ending ‘.R’ or ‘.r’ are `source()`d in, with the R working directory changed temporarily to the directory containing the respective file. (`data()` ensures that the utils package is attached, in case it had been run via `utils::data()`.)
+> - files ending ‘.RData’ or ‘.rdata’ or ‘.rda’ are `load()`ed.
+> - files ending ‘.tab’, ‘.txt’ or ‘.TXT’ are read using `read.table(..., header = TRUE, as.is=FALSE)`, and hence result in a data frame.
+> - files ending ‘.csv’ or ‘.CSV’ are read using `read.table(..., header = TRUE, sep = ";", as.is=FALSE)`, and also result in a data frame.
+
+By storing the data as code in an `.R` script, it is possible to provide a deprecation message when the data is loaded.
+
+In practice, in `datadeprecation/data/mydata.R`, you could have:
+
+```{.r}
+warning(
+  "The dataset `mydata` is deprecated and will be removed in a future version of `datadeprecation`. ",
+  "Instead, please use ..."
+)
+mydata <- letters
+```
+
+### Avoiding triggering the warning too early
+
+However, if you do this, you will get a warning when running `R CMD check` on your package:
+
+```
+W  checking contents of ‘data’ directory ...
+   Output for data("mydata", package = "datadeprecation"):
+     No dataset created in 'envir'
+     Warning message:
+     In eval(exprs[i], envir) :
+       The dataset `mydata` is deprecated and will be removed in a future version of `datadeprecation`. Instead, please use ...
+```
+
+And the warning will be displayed when the package is loaded, even if the user never tries to access the data:
+
+```{.r}
+library(datadeprecation)
+```
+
+> Warning message:
+> In eval(exprs[i], envir) :
+>   The dataset `mydata` is deprecated and will be removed in a future version of `datadeprecation`. Instead, please use ...
+
+To avoid triggering the warning too early, we need to return a promise instead and delay the warning until the user actually tries to use the data.
+
+The dedicated function for this is `delayedAssign()`, which allows to create a promise that will be evaluated when the variable is accessed:
+
+We then update our `datadeprecation/data/mydata.R` file to:
+
+```{.r}
+delayedAssign(
+  "mydata",
+  {
+    warning(
+      "The dataset `mydata` is deprecated and will be removed in a future version of `datadeprecation`. ",
+      "Instead, please use ..."
+    )
+    letters
+  }
+)
+```
+
+### Avoiding automatic conversion to `.rda` format
+
+However, we are not done yet.
+When building the package, R will automatically convert the `.R` file to a `.rda` file, which will cause the warning to leak into `R CMD build` output:
+
+```
+* re-saving .R files as .rda
+Warning in save(list = ls(envir, all.names = TRUE), file = sub("\\.[Rr]$",  :
+  The dataset `mydata` is deprecated and will be removed in a future version of `datadeprecation`. Instead, please use ...
+  NB: *.R converted to .rda: other files may need to be removed
+```
+
+It caught me a bit off guard initially but the solution, as often, was to investigate by [reading the R source code](https://blog.r-hub.io/2019/05/14/read-the-source/). I search for the error message in the https://github.com/r-devel/r-svn repository and found the relevant code in [`src/library/tools/R/build.R`](https://github.com/r-devel/r-svn/blob/b4570e6a3f4093e1e11e4e6ad0fb92bde56df4a0/src/library/tools/R/build.R#L834-L851):
+
+```{.r}
+    resave_data_others <- function(pkgname, resave_data)
+    {
+        if (resave_data == "no") return()
+        if(!dir.exists(ddir <- file.path(pkgname, "data")))
+            return()
+        ddir <- normalizePath(ddir)
+        dataFiles <- filtergrep("\\.(rda|RData)$",
+                                list_files_with_type(ddir, "data"))
+        if (!length(dataFiles)) return()
+        resaved <- character()
+        on.exit(unlink(resaved))
+        Rs <- grep("\\.[Rr]$", dataFiles, value = TRUE)
+        if (length(Rs)) { # these might use .txt etc
+            messageLog(Log, "re-saving .R files as .rda")
+            ## ensure utils is visible
+            ##   library("utils")
+            lapply(Rs, function(x){
+                envir <- new.env(hash = TRUE)
+                sys.source(x, chdir = TRUE, envir = envir)
+                ## version = 2L for maximal back-compatibility
+                save(list = ls(envir, all.names = TRUE),
+                     file = sub("\\.[Rr]$", ".rda", x),
+                     compress = TRUE, compression_level = 9,
+                     envir = envir,
+                     version = 2L)
+                resaved <<- c(resaved, x)
+            })
+            printLog(Log,
+                     "  NB: *.R converted to .rda: other files may need to be removed\n")
+        }
+```
+
+You can see this code path is guarded by the `resave_data` argument. [Further searching for this variable in the same file](https://github.com/r-devel/r-svn/blob/b4570e6a3f4093e1e11e4e6ad0fb92bde56df4a0/src/library/tools/R/build.R#L1174-L1178) shows that it is controlled by the `BuildResaveData` field in the `DESCRIPTION` file of the package:
+
+```{.r}
+            ## allow per-package override
+            resave_data1 <- parse_description_field(desc, "BuildResaveData",
+                                                    resave_data, logical = FALSE)
+            resave_data_others(pkgname, resave_data1)
+            resave_data_rda(pkgname, resave_data1)
+```
+
+Thus, the final step is to add the following line to the `DESCRIPTION` file of the package:
+
+```{.yaml}
+BuildResaveData: no
+```
+
+### The final result
+
+With these three changes combined:
+
+- no NOTE, WARN, or ERROR is emitted by `R CMD check` or `R CMD build`
+- no warning is emitted when loading the package
+- a warning is emitted when the user tries to access the data after loading it with `data("mydata", package = "datadeprecation")`
+
+The entire demonstration is also available as a minimal example package in this GitHub repository: https://github.com/Bisaloo/datadeprecation.
