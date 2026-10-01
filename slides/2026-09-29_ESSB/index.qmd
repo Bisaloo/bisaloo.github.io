@@ -1,0 +1,12 @@
+---
+title: |
+  Bringing the Zarr and OME-Zarr formats to R 
+  with the Rarr and romeo Bioconductor packages
+author: ["Hugo Gruson", "Mike Smith", "Artür Manukyan"]
+date: "2019-07-19"
+categories: [poster, conference, ESSB, Spatial Biology, Data Formats, R package, Zarr]
+---
+
+## Poster
+
+![](HugoGruson_ESSB2026.pdf)
